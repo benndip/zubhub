@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import { connect, useSelector } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -56,6 +56,8 @@ import NotificationButton from '../../components/notification_button/Notificatio
 import { throttle } from '../../utils.js';
 import AvatarButton from '../avatar_button/AvatarButton';
 import Sidenav from '../Sidenav/Sidenav';
+import { changeLanguage } from '../../store/actions/languageActions';
+import { languages } from '../../translations';
 
 const useStyles = makeStyles(styles);
 const useCommonStyles = makeStyles(commonStyles);
@@ -71,11 +73,13 @@ function PageWrapper(props) {
   const backToTopEl = React.useRef(null);
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const common_classes = useCommonStyles();
   const trigger = useScrollTrigger();
   const [searchType, setSearchType] = useState(getQueryParams(window.location.href).get('type') || SearchType.PROJECTS);
   const formRef = useRef();
   const token = useSelector(state => state.auth.token);
+  const i18n = useSelector(state => state.language.i18n);
 
   const [state, setState] = React.useState({
     username: null,
@@ -203,8 +207,11 @@ function PageWrapper(props) {
     setQuery(event.target.value);
   };
 
+  const hangleLanguageChange = (e) => {
+    dispatch(changeLanguage(e.target.value.locale));
+  }
+
   const { anchor_el, loading, open_search_form } = state;
-  const { t } = props;
   const { zubhub, hero } = props.projects;
 
   const profileMenuOpen = Boolean(anchor_el);
@@ -227,39 +234,19 @@ function PageWrapper(props) {
                   classes.languageSelectBoxStyle,
                   common_classes.displayInlineFlex,
                   common_classes.alignCenter,
-                  common_classes.addOnSmallScreen,
-                )}
-              >
-                <TranslateIcon />
-                <Select
-                  className={classes.languageSelectStyle}
-                  value=""
-                  onChange={e => handleChangeLanguage({ e, props })}
-                >
-                  {Object.keys(languageMap).map((ln, index) => (
-                    <MenuItem key={index} value={ln}>
-                      {languageMap[ln]}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Box>
-              <Box
-                className={clsx(
-                  classes.languageSelectBoxStyle,
-                  common_classes.displayInlineFlex,
-                  common_classes.alignCenter,
                   common_classes.removeOnSmallScreen,
                 )}
               >
                 <TranslateIcon />
+                <span>{i18n.t(`pageWrapper.locales.${i18n.locale}`)}</span>
                 <Select
                   className={classes.languageSelectStyle}
-                  value={props.i18n.language}
-                  onChange={e => handleChangeLanguage({ e, props })}
+                  value={i18n.t(`pageWrapper.locales.${i18n.locale}`)}
+                  onChange={e => hangleLanguageChange(e)}
                 >
-                  {Object.keys(languageMap).map((ln, index) => (
+                  {languages.map((ln, index) => (
                     <MenuItem key={index} value={ln}>
-                      {languageMap[ln]}
+                     {ln.flag + " " + i18n.t(`pageWrapper.locales.${ln.locale}`)}
                     </MenuItem>
                   ))}
                 </Select>
@@ -280,14 +267,14 @@ function PageWrapper(props) {
                   variant="outlined"
                 >
                   <InputLabel htmlFor="q" className={classes.searchFormLabelStyle}>
-                    {t('pageWrapper.inputs.search.label')}
+                    {i18n.t('pageWrapper.inputs.search.label')}
                   </InputLabel>
                   <FormGroup row>
                     <FormControl variant="outlined">
                       <InputSelect searchType={searchType} onSearchTypeChange={setSearchType} name="type">
-                        <MenuItem value={SearchType.PROJECTS}>Projects</MenuItem>
-                        <MenuItem value={SearchType.CREATORS}>Creators</MenuItem>
-                        <MenuItem value={SearchType.TAGS}>Tags</MenuItem>
+                        <MenuItem value={SearchType.PROJECTS}>{i18n.t('pageWrapper.navbar.Projects')}</MenuItem>
+                        <MenuItem value={SearchType.CREATORS}>{i18n.t('pageWrapper.navbar.Creators')}</MenuItem>
+                        <MenuItem value={SearchType.TAGS}>{i18n.t('pageWrapper.navbar.Tags')}</MenuItem>
                       </InputSelect>
                     </FormControl>
                     <Autocomplete
@@ -314,7 +301,7 @@ function PageWrapper(props) {
                                 <IconButton
                                   type="submit"
                                   className={classes.searchFormSubmitStyle}
-                                  aria-label={t('pageWrapper.inputs.search.label')}
+                                  aria-label={i18n.t('pageWrapper.inputs.search.label')}
                                 >
                                   <SearchIcon />
                                 </IconButton>
@@ -323,7 +310,7 @@ function PageWrapper(props) {
                             pattern: '(.|s)*S(.|s)*',
                           }}
                           onChange={handleTextField}
-                          placeholder={`${t('pageWrapper.inputs.search.label')}...`}
+                          placeholder={`${i18n.t('pageWrapper.navbar.Search')}...`}
                         />
                       )}
                     </Autocomplete>
@@ -342,7 +329,7 @@ function PageWrapper(props) {
                       {props.auth.username}
                     </Typography>
                     {/* Todo: Change this subheading based on current role of user */}
-                    <Typography className="">Creator</Typography>
+                    <Typography className="">{i18n.t('pageWrapper.navbar.Creator')}</Typography>
                   </Box>
                 )}
               </Hidden>
@@ -360,14 +347,14 @@ function PageWrapper(props) {
               >
                 <FormControl variant="outlined" style={{ minWidth: 'unset' }} className={classes.formControlStyle}>
                   <InputSelect searchType={searchType} onSearchTypeChange={setSearchType} name="type">
-                    <MenuItem value={SearchType.PROJECTS}>Projects</MenuItem>
-                    <MenuItem value={SearchType.CREATORS}>Creators</MenuItem>
-                    <MenuItem value={SearchType.TAGS}>Tags</MenuItem>
+                  <MenuItem value={SearchType.PROJECTS}>{i18n.t('pageWrapper.navbar.Projects')}</MenuItem>
+                  <MenuItem value={SearchType.CREATORS}>{i18n.t('pageWrapper.navbar.Creators')}</MenuItem>
+                  <MenuItem value={SearchType.TAGS}>{i18n.t('pageWrapper.navbar.Tags')}</MenuItem>
                   </InputSelect>
                 </FormControl>
                 <FormControl variant="outlined" style={{ flex: '1 1 auto', maxWidth: '350px' }}>
                   <InputLabel htmlFor="q" className={classes.searchFormLabelStyle}>
-                    {t('pageWrapper.inputs.search.label')}
+                    {i18n.t('pageWrapper.inputs.search.label')}
                   </InputLabel>
                   <Autocomplete
                     style={{ width: '100%' }}
@@ -393,7 +380,7 @@ function PageWrapper(props) {
                               <IconButton
                                 type="submit"
                                 className={classes.searchFormSubmitStyle}
-                                aria-label={t('pageWrapper.inputs.search.label')}
+                                aria-label={i18n.t('pageWrapper.inputs.search.label')}
                               >
                                 <SearchIcon />
                               </IconButton>
@@ -401,7 +388,7 @@ function PageWrapper(props) {
                           ),
                           pattern: '(.|s)*S(.|s)*',
                         }}
-                        placeholder={`${t('pageWrapper.inputs.search.label')}...`}
+                        placeholder={`${i18n.t('pageWrapper.inputs.search.label')}...`}
                         onChange={handleTextField}
                       />
                     )}

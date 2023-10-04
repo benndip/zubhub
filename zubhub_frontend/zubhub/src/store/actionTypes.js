@@ -1,2 +1,3 @@
 export const SET_ACTIVITIES = 'SET_ACTIVITIES';
 export const SET_ACTIVITY = 'SET_ACTIVITY';
+export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
