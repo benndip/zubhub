@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { toast } from 'react-toastify';
 import API from '../../api';
@@ -77,6 +77,7 @@ const useCommonStyles = makeStyles(commonStyles);
 function Profile(props) {
   const username_el = React.useRef(null);
   const classes = useStyles();
+  const i18n = useSelector(state => state.language.i18n);
   const common_classes = useCommonStyles();
   const username = props.match.params.username || props.auth.username;
   const [page, setPage] = useState(1);
@@ -157,7 +158,7 @@ function Profile(props) {
   } = state;
 
   const more_menu_open = Boolean(more_anchor_el);
-  const { t } = props;
+  // const { i18n.t } = props;
 
   const handleScroll = e => {
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
@@ -186,7 +187,7 @@ function Profile(props) {
                         primaryButtonStyle
                         onClick={() => props.history.push('/edit-profile')}
                       >
-                        {t('profile.edit')}
+                        {i18n.t('profile.edit')}
                       </CustomButton>
                     </>
                   ) : (
@@ -197,7 +198,7 @@ function Profile(props) {
                       secondaryButtonStyle
                       onClick={() => handleSetState(toggleFollow(profile.id, props))}
                     >
-                      {profile.followers.includes(props.auth.id) ? t('profile.unfollow') : t('profile.follow')}
+                      {profile.followers.includes(props.auth.id) ? i18n.t('profile.unfollow') : i18n.t('profile.follow')}
                     </CustomButton>
                   )}
                 </Box>
@@ -232,26 +233,26 @@ function Profile(props) {
                 <Box className={classes.moreInfoBoxStyle}>
                   <Link className={classes.textDecorationNone} to={`/creators/${profile.username}/projects`}>
                     <Typography className={classes.moreInfoStyle} component="h5">
-                      <div className={classes.moreInfoTitleStyle}>{t('profile.projectsCount')}</div>
+                      <div className={classes.moreInfoTitleStyle}>{i18n.t('profile.projectsCount')}</div>
                       <div className={classes.moreInfoCountStyle}>{profile.projects_count}</div>
                     </Typography>
                   </Link>
                   <Link to={`/creators/${profile.username}/followers`} className={classes.textDecorationNone}>
                     <Typography className={classes.moreInfoStyle} component="h5">
-                      <div className={classes.moreInfoTitleStyle}>{t('profile.followersCount')}</div>
+                      <div className={classes.moreInfoTitleStyle}>{i18n.t('profile.followersCount')}</div>
                       <div className={classes.moreInfoCountStyle}>{profile.followers.length}</div>
                     </Typography>
                   </Link>
                   <Link to={`/creators/${profile.username}/following`} className={classes.textDecorationNone}>
                     <Typography className={classes.moreInfoStyle} component="h5">
-                      <div className={classes.moreInfoTitleStyle}>{t('profile.followingCount')}</div>
+                      <div className={classes.moreInfoTitleStyle}>{i18n.t('profile.followingCount')}</div>
                       <div className={classes.moreInfoCountStyle}>{profile.following_count}</div>
                     </Typography>
                   </Link>
                   {profile.members_count !== null ? (
                     <Link to={`/creators/${profile.username}/members`} className={classes.textDecorationNone}>
                       <Typography className={classes.moreInfoStyle} component="h5">
-                        <div className={classes.moreInfoTitleStyle}>{t('profile.membersCount')}</div>
+                        <div className={classes.moreInfoTitleStyle}>{i18n.t('profile.membersCount')}</div>
                         <div className={classes.moreInfoCountStyle}>{profile.members_count}</div>
                       </Typography>
                     </Link>
@@ -264,13 +265,13 @@ function Profile(props) {
           <div className={classes.aboutMeBadgeBox}>
             <Paper className={classes.aboutMeBox}>
               <Typography gutterBottom component="h2" variant="h6" color="textPrimary" className={classes.titleStyle}>
-                {!profile.members_count ? t('profile.about.label1') : t('profile.about.label2')}
+                {!profile.members_count ? i18n.t('profile.about.label1') : i18n.t('profile.about.label2')}
               </Typography>
               {profile.bio
                 ? profile.bio
                 : !profile.members_count
-                ? t('profile.about.placeholder1')
-                : t('profile.about.placeholder2')}
+                ? i18n.t('profile.about.placeholder1')
+                : i18n.t('profile.about.placeholder2')}
             </Paper>
 
             <Paper className={classes.badgeBox}>
@@ -281,10 +282,10 @@ function Profile(props) {
                 color="textPrimary"
                 className={classes.badgeTitleStyle}
               >
-                {t('profile.badge.badges')}
+                {i18n.t('profile.badge.badges')}
               </Typography>
               {!badge_tags.length > 0 ? (
-                t('profile.badge.addBadges')
+                i18n.t('profile.badge.addBadges')
               ) : (
                 <Box className={classes.badgeContainerStyle}>
                   {badge_tags.map(tag => (
@@ -299,7 +300,7 @@ function Profile(props) {
 
           <Paper className={classes.profileLowerStyle}>
             <Typography gutterBottom component="h2" variant="h6" color="textPrimary" className={classes.titleStyle}>
-              {t('profile.activityLog')}
+              {i18n.t('profile.activityLog')}
             </Typography>
                   <div onScroll= {handleScroll} style= {{maxHeight: '300px', overflow: 'auto'}}>
 
@@ -322,7 +323,7 @@ function Profile(props) {
              color="textPrimary"
              className= {classes.titleStyle}
             >
-            {t('Teams')}
+            {i18n.t('Teams')}
             <CustomButton
               className={classes.teamButton}
               variant="contained"
@@ -330,7 +331,7 @@ function Profile(props) {
               primaryButtonStyle
               onClick={() => props.history.push('/create-team')}
             >
-              {t('profile.createteam')}
+              {i18n.t('profile.createteam')}
             </CustomButton>
             </Typography>
             <Grid container spacing={2}>
@@ -374,7 +375,7 @@ function Profile(props) {
                             padding: '6px 12px', // Adjust the padding to change the button size
                           }}
                         >
-                          {team.members.includes(props.auth.id) ? t('profile.unfollow') : t('profile.follow')}
+                          {team.members.includes(props.auth.id) ? i18n.t('profile.unfollow') : i18n.t('profile.follow')}
                         </CustomButton>
                       </CardContent>
                     </Card>
@@ -397,7 +398,7 @@ function Profile(props) {
             ) : (
               <Box style={{ borderRadius: 8, overflow: 'hidden' }}>
                 <Typography gutterBottom component="h2" variant="h6" color="textPrimary" className={classes.titleStyle}>
-                  {t('profile.projects.label')}
+                  {i18n.t('profile.projects.label')}
                   <CustomButton
                     className={clsx(classes.floatRight)}
                     variant="outlined"
@@ -405,7 +406,7 @@ function Profile(props) {
                     secondaryButtonStyle
                     onClick={() => props.history.push(`/creators/${profile.username}/projects`)}
                   >
-                    {t('profile.projects.viewAll')}
+                    {i18n.t('profile.projects.viewAll')}
                   </CustomButton>
                 </Typography>
                 <Grid container spacing={3}>
@@ -429,9 +430,9 @@ function Profile(props) {
         <Dialog
           open={open_delete_account_modal}
           onClose={() => handleSetState(handleToggleDeleteAccountModal(state))}
-          aria-labelledby={t('profile.delete.ariaLabels.deleteAccount')}
+          aria-labelledby={i18n.t('profile.delete.ariaLabels.deleteAccount')}
         >
-          <DialogTitle id="delete-project">{t('profile.delete.dialog.primary')}</DialogTitle>
+          <DialogTitle id="delete-project">{i18n.t('profile.delete.dialog.primary')}</DialogTitle>
           <Box component="p" className={dialog_error !== null && classes.errorBox}>
             {dialog_error !== null && (
               <Box component="span" className={classes.error}>
@@ -440,7 +441,7 @@ function Profile(props) {
             )}
           </Box>{' '}
           <DialogContent>
-            <Typography>{t('profile.delete.dialog.secondary')}</Typography>
+            <Typography>{i18n.t('profile.delete.dialog.secondary')}</Typography>
             <FormControl
               className={clsx(classes.margin, classes.textField)}
               variant="outlined"
@@ -449,7 +450,7 @@ function Profile(props) {
               margin="normal"
             >
               <InputLabel className={classes.customLabelStyle} htmlFor="username">
-                {t('profile.delete.dialog.inputs.username')}
+                {i18n.t('profile.delete.dialog.inputs.username')}
               </InputLabel>
               <OutlinedInput
                 className={classes.customInputStyle}
@@ -467,7 +468,7 @@ function Profile(props) {
               color="primary"
               secondaryButtonStyle
             >
-              {t('profile.delete.dialog.cancel')}
+              {i18n.t('profile.delete.dialog.cancel')}
             </CustomButton>
             <CustomButton
               variant="contained"
@@ -475,14 +476,14 @@ function Profile(props) {
               dangerButtonStyle
               customButtonStyle
             >
-              {t('profile.delete.dialog.proceed')}
+              {i18n.t('profile.delete.dialog.proceed')}
             </CustomButton>
           </DialogActions>
         </Dialog>
       </>
     );
   } else {
-    return <ErrorPage error={t('profile.errors.profileFetchError')} />;
+    return <ErrorPage error={i18n.t('profile.errors.profileFetchError')} />;
   }
 }
 
