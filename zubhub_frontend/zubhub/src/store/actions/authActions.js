@@ -67,7 +67,7 @@ export const logout = args => {
         args.history.push('/');
       })
       .catch(_ => {
-        toast.warning(args.t('pageWrapper.errors.logoutFailed'));
+        toast.warning(args.i18n.t('pageWrapper.errors.logoutFailed'));
       });
   };
 };

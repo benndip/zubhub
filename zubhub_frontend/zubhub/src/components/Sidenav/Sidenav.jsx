@@ -24,9 +24,9 @@ export default function Sidenav() {
   const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const { t } = useTranslation();
   const history = useHistory();
   const auth = useSelector(state => state.auth);
+  const i18n = useSelector(state => state.language.i18n);
   const [isLogginOut, setIsLogginOut] = useState(false);
   const [draftCount, setDraftCount] = useState(0);
   const [myProjectCount, setMyProjectCount] = useState(0);
@@ -44,7 +44,7 @@ export default function Sidenav() {
 
   const handleLogout = async () => {
     setIsLogginOut(true);
-    const res = await dispatch(logout({ token: auth.token, history, t }));
+    const res = await dispatch(logout({ token: auth.token, history, i18n }));
   };
 
   const displayLink = requireAuth => {
@@ -63,7 +63,7 @@ export default function Sidenav() {
           </Link>
         )}
 
-        {links({ draftCount, myProjectCount, auth, t }).map(
+        {links({ draftCount, myProjectCount, auth, i18n }).map(
           ({ label, link, icon: Icon, red, requireAuth, target }, index) =>
             displayLink(requireAuth) && (
               <Link
@@ -82,7 +82,7 @@ export default function Sidenav() {
             ),
         )}
 
-        {bottomLinks({ t }).map(
+        {bottomLinks({ i18n }).map(
           ({ label, link, icon: Icon, red, action, requireAuth }, index) =>
             displayLink(requireAuth) && (
               <Link

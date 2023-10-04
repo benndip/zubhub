@@ -246,7 +246,7 @@ function PageWrapper(props) {
                 >
                   {languages.map((ln, index) => (
                     <MenuItem key={index} value={ln}>
-                     {ln.flag + " " + i18n.t(`pageWrapper.locales.${ln.locale}`)}
+                     {ln.flag + " " + ln.translation}
                     </MenuItem>
                   ))}
                 </Select>
