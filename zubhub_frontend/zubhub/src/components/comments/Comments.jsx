@@ -13,6 +13,7 @@ import { nFormatter, countComments } from '../../assets/js/utils/scripts';
 
 import { addComment, unpublishComment, handleToggleDeleteCommentModal, deleteComment } from './commentsScripts';
 import styles from '../../assets/js/styles/components/comments/commentsStyles';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(styles);
 
@@ -24,6 +25,8 @@ const useStyles = makeStyles(styles);
  */
 function Comments(props) {
   const classes = useStyles();
+
+  const i18n = useSelector(state => state.language.i18n);
 
   const [state, setState] = React.useState({
     open_delete_comment_modal: false,
@@ -39,13 +42,13 @@ function Comments(props) {
   };
 
   const { open_delete_comment_modal, delete_comment_dialog_error } = state;
-  const { context, handleSetState, t } = props;
+  const { context, handleSetState } = props;
 
   return (
     <>
       <Container className={classes.commentSectionStyle}>
         <Typography variant="h5" className={classes.descriptionHeadingStyle}>
-          <CommentIcon /> {nFormatter(countComments(context.body.comments))} {t('comments.label')}
+          <CommentIcon /> {nFormatter(countComments(context.body.comments))} {i18n.t('comments.label')}
         </Typography>
 
         <CommentInput
@@ -74,9 +77,9 @@ function Comments(props) {
         onClose={(_, id = open_delete_comment_modal) =>
           handleCommentsSetState(handleToggleDeleteCommentModal(state, id))
         }
-        aria-labelledby={t('projectDetails.ariaLabels.deleteComment')}
+        aria-labelledby={i18n.t('projectDetails.ariaLabels.deleteComment')}
       >
-        <DialogTitle id="delete-comment">{t('projectDetails.comment.delete.dialog.primary')}</DialogTitle>
+        <DialogTitle id="delete-comment">{i18n.t('projectDetails.comment.delete.dialog.primary')}</DialogTitle>
         <Box component="p" className={delete_comment_dialog_error !== null && classes.errorBox}>
           {delete_comment_dialog_error !== null && (
             <Box component="span" className={classes.error}>
@@ -85,7 +88,7 @@ function Comments(props) {
           )}
         </Box>{' '}
         <DialogContent>
-          <Typography>{t('projectDetails.comment.delete.dialog.secondary')}</Typography>
+          <Typography>{i18n.t('projectDetails.comment.delete.dialog.secondary')}</Typography>
         </DialogContent>
         <DialogActions>
           <CustomButton
@@ -96,7 +99,7 @@ function Comments(props) {
             color="primary"
             secondaryButtonStyle
           >
-            {t('projectDetails.comment.delete.dialog.cancel')}
+            {i18n.t('projectDetails.comment.delete.dialog.cancel')}
           </CustomButton>
           <CustomButton
             variant="contained"
@@ -105,7 +108,7 @@ function Comments(props) {
             }
             dangerButtonStyle
           >
-            {t('projectDetails.comment.delete.dialog.proceed')}
+            {i18n.t('projectDetails.comment.delete.dialog.proceed')}
           </CustomButton>
         </DialogActions>
       </Dialog>

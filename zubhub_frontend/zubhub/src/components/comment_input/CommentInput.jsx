@@ -26,6 +26,7 @@ import CustomButton from '../../components/button/Button';
 
 import styles from '../../assets/js/styles/components/comments/commentsStyles';
 import commonStyles from '../../assets/js/styles';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(styles);
 const useCommonStyles = makeStyles(commonStyles);
@@ -45,6 +46,8 @@ function CommentInput(props) {
   };
   const classes = useStyles();
   const common_classes = useCommonStyles();
+
+  const i18n = useSelector(state => state.language.i18n);
 
   const [state, setState] = React.useState({
     creator_suggestion: [],
@@ -88,7 +91,7 @@ function CommentInput(props) {
 
   const { creator_suggestion, creator_suggestion_open } = state;
 
-  const { parent_id, t } = props;
+  const { parent_id } = props;
 
   return (
     <Box
@@ -132,7 +135,7 @@ function CommentInput(props) {
           name="comment"
           id="comment"
           autoComplete="off"
-          placeholder={`${t('comments.write')} ...`}
+          placeholder={`${i18n.t('comments.write')} ...`}
           onChange={e => {
             handleSuggestCreators(e, props, timer, handleSetState);
           }}
@@ -145,7 +148,7 @@ function CommentInput(props) {
           size={parent_id ? 'small' : 'medium'}
           primaryButtonStyle
         >
-          {t('comments.action')}
+          {i18n.t('comments.action')}
         </CustomButton>
       </form>
       <ClickAwayListener
