@@ -19,29 +19,33 @@ import { publish_type } from '../../assets/js/utils/constants';
 import { toggleLike, toggleSave, formatProjectDescription, getPublishTypeLabel } from './projectScripts';
 import styles from '../../assets/js/styles/components/project/projectStyles';
 import commonStyles from '../../assets/js/styles';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(styles);
 const useCommonStyles = makeStyles(commonStyles);
 
+
 /**
  * @function Project Component
  * @author Raymond Ndibe <ndiberaymond1@gmail.com>
- *
- * @todo - describe function's signature
- */
+*
+* @todo - describe function's signature
+*/
 function Project(props) {
   const classes = useStyles();
   const common_classes = useCommonStyles();
 
-  const { project, t } = props;
+  const i18n = useSelector(state => state.language.i18n);
+
+  const { project } = props;
   return (
     <Link to={`/projects/${project.id}`} className={classes.textDecorationNone}>
       <Card className={classes.root}>
         <CardMedia className={classes.mediaBoxStyle} title={project.title}>
           <Tooltip title={getPublishTypeLabel(project.publish.type)} placement="right-start" arrow>
             <Box className={classes.publishStyle}>
-              {project.publish.type === publish_type.Draft ? t('project.publish.draft') : ''}
-              {project.publish.type === publish_type.Preview ? t('project.publish.preview') : ''}
+              {project.publish.type === publish_type.Draft ? i18n.t('project.publish.draft') : ''}
+              {project.publish.type === publish_type.Preview ? i18n.t('project.publish.preview') : ''}
               {project.publish.type === publish_type['Authenticated Creators'] ? <LockIcon /> : ''}
               {project.publish.type === publish_type.Public ? <PublicIcon /> : ''}
             </Box>
@@ -172,7 +176,7 @@ function Project(props) {
                 </Typography>
               </Box>
               <Typography color="textSecondary" variant="caption" component="span" className={classes.date}>
-                {`${dFormatter(project.created_on).value} ${t(`date.${dFormatter(project.created_on).key}`)} ${t(
+                {`${dFormatter(project.created_on).value} ${i18n.t(`date.${dFormatter(project.created_on).key}`)} ${i18n.t(
                   'date.ago',
                 )}`}
               </Typography>

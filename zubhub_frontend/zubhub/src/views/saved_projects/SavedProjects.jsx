@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { toast } from 'react-toastify';
 
@@ -36,6 +36,8 @@ const useStyles = makeStyles(styles);
 function SavedProjects(props) {
   const classes = useStyles();
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const [state, setState] = React.useState({
     results: [],
     prev_page: null,
@@ -55,7 +57,7 @@ function SavedProjects(props) {
     }
   };
   const { results: projects, prev_page, next_page, loading } = state;
-  const { t } = props;
+  // const { i18n.t } = props;
   if (loading) {
     return <LoadingPage />;
   } else if (projects && projects.length > 0) {
@@ -69,7 +71,7 @@ function SavedProjects(props) {
                 variant="h4"
                 gutterBottom
               >
-                {t('savedProjects.title')}
+                {i18n.t('savedProjects.title')}
               </Typography>
             </Grid>
             {projects.map(project => (
@@ -93,7 +95,7 @@ function SavedProjects(props) {
             ))}
           </Grid>
           <ButtonGroup
-            aria-label={t('savedProjects.ariaLabels.prevNxtButtons')}
+            aria-label={i18n.t('savedProjects.ariaLabels.prevNxtButtons')}
             className={classes.buttonGroupStyle}
           >
             {prev_page ? (
@@ -107,7 +109,7 @@ function SavedProjects(props) {
                 }}
                 primaryButtonStyle
               >
-                {t('savedProjects.prev')}
+                {i18n.t('savedProjects.prev')}
               </CustomButton>
             ) : null}
             {next_page ? (
@@ -121,7 +123,7 @@ function SavedProjects(props) {
                 }}
                 primaryButtonStyle
               >
-                {t('savedProjects.next')}
+                {i18n.t('savedProjects.next')}
               </CustomButton>
             ) : null}
           </ButtonGroup>
@@ -129,7 +131,7 @@ function SavedProjects(props) {
       </Box>
     );
   } else {
-    return <ErrorPage error={t('savedProjects.errors.noSavedProjects')} />;
+    return <ErrorPage error={i18n.t('savedProjects.errors.noSavedProjects')} />;
   }
 }
 

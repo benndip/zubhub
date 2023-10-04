@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { toast } from 'react-toastify';
 
@@ -30,6 +30,8 @@ function UserDrafts(props) {
   const classes = useStyles();
   const commonClasses = makeStyles(styles)();
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const [state, setState] = React.useState({
     drafts: [],
     prev_page: null,
@@ -50,7 +52,7 @@ function UserDrafts(props) {
   };
 
   const { drafts, prev_page, next_page, loading } = state;
-  const { t } = props;
+  // const { i18n.t } = props;
   const username = props.match.params.username;
   if (loading) {
     return <LoadingPage />;
@@ -60,7 +62,7 @@ function UserDrafts(props) {
         <Grid spacing={3} container>
           <Grid item xs={12}>
             <Typography className={commonClasses.title1} variant="h3" gutterBottom>
-              {capitalize(username)}'s {t('userDrafts.title')}
+              {capitalize(username)}'s {i18n.t('userDrafts.title')}
             </Typography>
           </Grid>
           {drafts.map(draft => (
@@ -74,7 +76,7 @@ function UserDrafts(props) {
             </Grid>
           ))}
         </Grid>
-        <ButtonGroup aria-label={t('userDrafts.ariaLabels.prevNxtButtons')} className={classes.buttonGroupStyle}>
+        <ButtonGroup aria-label={i18n.t('userDrafts.ariaLabels.prevNxtButtons')} className={classes.buttonGroupStyle}>
           {prev_page ? (
             <CustomButton
               className={classes.floatLeft}
@@ -83,7 +85,7 @@ function UserDrafts(props) {
               onClick={(e, page = prev_page.split('?')[1]) => handleSetState(fetchPage(page, props))}
               primaryButtonStyle
             >
-              {t('userDrafts.prev')}
+              {i18n.t('userDrafts.prev')}
             </CustomButton>
           ) : null}
           {next_page ? (
@@ -94,7 +96,7 @@ function UserDrafts(props) {
               onClick={(e, page = next_page.split('?')[1]) => handleSetState(fetchPage(page, props))}
               primaryButtonStyle
             >
-              {t('userDrafts.next')}
+              {i18n.t('userDrafts.next')}
             </CustomButton>
           ) : null}
         </ButtonGroup>
@@ -102,9 +104,9 @@ function UserDrafts(props) {
     );
   } else {
     return (
-      <ErrorPage error={t('userDrafts.errors.noUserDrafts')}>
+      <ErrorPage error={i18n.t('userDrafts.errors.noUserDrafts')}>
         <CustomButton primaryButtonStyle href="/projects/create">
-          Create Project
+        {i18n.t('pageWrapper.navbar.createProject')}
         </CustomButton>
       </ErrorPage>
     );

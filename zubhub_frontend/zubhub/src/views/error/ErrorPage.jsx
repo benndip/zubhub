@@ -6,6 +6,7 @@ import { Box, Typography, Container } from '@material-ui/core';
 
 import disconnected from '../../assets/images/disconnected-chains.svg';
 import styles from '../../assets/js/styles/views/error/errorPageStyles';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(styles);
 
@@ -18,12 +19,15 @@ const useStyles = makeStyles(styles);
 function ErrorPage(props) {
   const classes = useStyles();
   const propStyle = props.style;
+
+  const i18n = useSelector(state => state.language.i18n);
+
   return (
     <Box className={classes.root} style={propStyle ? propStyle : null}>
       <Container className={classes.mainContainerStyle}>
         <img className={classes.disconnectedStyle} src={disconnected} alt={props.error} />
         <Box className={classes.errorBoxStyle}>
-          <Typography variant="h1">Oops!!</Typography>
+          <Typography variant="h1">{i18n.t('Oops')}!!</Typography>
           <Typography style={{ marginBottom: 50 }} variant="h5">
             {props.error}
           </Typography>

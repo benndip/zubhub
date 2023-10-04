@@ -92,6 +92,8 @@ function PageWrapper(props) {
   const [searchType, setSearchType] = useState(getQueryParams(window.location.href).get('type') || SearchType.PROJECTS);
   const formRef = useRef();
   const token = useSelector(state => state.auth.token);
+  const i18n = useSelector(state => state.language.i18n);
+
 
   const [state, setState] = React.useState({
     username: null,
@@ -210,7 +212,7 @@ function PageWrapper(props) {
   };
 
   const { anchor_el, loading, open_search_form } = state;
-  const { t } = props;
+
   const { zubhub, hero } = props.projects;
 
   const profileMenuOpen = Boolean(anchor_el);
@@ -265,71 +267,48 @@ function PageWrapper(props) {
               alt="unstructured-studio-logo"
             />
           </a>
-          <div>
-            <Box
-              className={clsx(
-                classes.languageSelectBoxStyle,
-                common_classes.displayInlineFlex,
-                common_classes.alignCenter,
-              )}
-              style={{ margin: 0 }}
-            >
-              <TranslateIcon />
-              <Select
-                className={classes.languageSelectStyle}
-                value={props.i18n.language}
-                onChange={e => handleChangeLanguage({ e, props })}
-              >
-                {Object.keys(languageMap).map((ln, index) => (
-                  <MenuItem key={index} value={ln}>
-                    {languageMap[ln]}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Box>
-          </div>
         </Box>
 
         <section className={classes.footerSectionStyle}>
           <Box className={classes.footerBoxStyle}>
             <Typography variant="subtitle2" color="textPrimary" className={classes.footerTitleStyle}>
-              {t('pageWrapper.footer.privacy')}
+              {i18n.t('pageWrapper.footer.privacy')}
             </Typography>
 
             <Link to={`/privacy_policy`} className={common_classes.textDecorationNone}>
               <Typography variant="subtitle2" color="textPrimary" className={classes.footerLinkStyle}>
-                {t('pageWrapper.footer.guidelines')}
+                {i18n.t('pageWrapper.footer.guidelines')}
               </Typography>
             </Link>
 
             <Link to={`/terms_of_use`} className={common_classes.textDecorationNone}>
               <Typography variant="subtitle2" color="textPrimary" className={classes.footerLinkStyle}>
-                {t('pageWrapper.footer.termsOfUse')}
+                {i18n.t('pageWrapper.footer.termsOfUse')}
               </Typography>
             </Link>
           </Box>
 
           <Box className={classes.footerBoxStyle}>
             <Typography variant="subtitle2" color="textPrimary" className={classes.footerTitleStyle}>
-              {t('pageWrapper.footer.about')}
+              {i18n.t('pageWrapper.footer.about')}
             </Typography>
 
             <Link to="/about" className={common_classes.textDecorationNone}>
               <Typography variant="subtitle2" color="textPrimary" className={classes.footerLinkStyle}>
-                {t('pageWrapper.footer.zubhub')}
+                {i18n.t('pageWrapper.footer.zubhub')}
               </Typography>
             </Link>
 
             <Link to="/challenge" className={common_classes.textDecorationNone}>
               <Typography variant="subtitle2" color="textPrimary" className={classes.footerLinkStyle}>
-                {t('pageWrapper.footer.challenges')}
+                {i18n.t('pageWrapper.footer.challenges')}
               </Typography>
             </Link>
           </Box>
 
           <Box className={classes.footerBoxStyle}>
             <Typography variant="subtitle2" color="textPrimary" className={classes.footerTitleStyle}>
-              {t('pageWrapper.footer.help')}
+              {i18n.t('pageWrapper.footer.help')}
             </Typography>
 
             <a
@@ -339,19 +318,19 @@ function PageWrapper(props) {
               className={common_classes.textDecorationNone}
             >
               <Typography variant="subtitle2" color="textPrimary" className={classes.footerLinkStyle}>
-                {t('pageWrapper.footer.resources')}
+                {i18n.t('pageWrapper.footer.resources')}
               </Typography>
             </a>
 
             <Link to={`/faqs`} className={clsx(common_classes.textDecorationNone, common_classes.displayNone)}>
               <Typography variant="subtitle2" color="textPrimary" className={classes.footerLinkStyle}>
-                {t('pageWrapper.footer.faqs')}
+                {i18n.t('pageWrapper.footer.faqs')}
               </Typography>
             </Link>
 
             <a href="mailto:hello@unstructured.studio" className={common_classes.textDecorationNone}>
               <Typography variant="subtitle2" color="textPrimary" className={classes.footerLinkStyle}>
-                {t('pageWrapper.footer.contactUs')}
+                {i18n.t('pageWrapper.footer.contactUs')}
               </Typography>
             </a>
           </Box>

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { toast } from 'react-toastify';
 
@@ -32,6 +32,7 @@ const useStyles = makeStyles(styles1);
 function UserProjects(props) {
   const classes = useStyles();
   const commonClasses = makeStyles(styles)();
+  const i18n = useSelector(state => state.language.i18n);
 
   const [state, setState] = React.useState({
     results: [],
@@ -53,7 +54,7 @@ function UserProjects(props) {
   };
 
   const { results: projects, prev_page, next_page, loading } = state;
-  const { t } = props;
+
   const username = props.match.params.username;
   if (loading) {
     return <LoadingPage />;
@@ -63,7 +64,7 @@ function UserProjects(props) {
         <Grid spacing={3} container>
           <Grid item xs={12}>
             <Typography className={commonClasses.title1} variant="h3" gutterBottom>
-              {capitalize(username)}'s {t('userProjects.title')}
+              {capitalize(username)}'s {i18n.t('userProjects.title')}
             </Typography>
           </Grid>
           {projects.map(project => (
@@ -77,7 +78,7 @@ function UserProjects(props) {
             </Grid>
           ))}
         </Grid>
-        <ButtonGroup aria-label={t('userProjects.ariaLabels.prevNxtButtons')} className={classes.buttonGroupStyle}>
+        <ButtonGroup aria-label={i18n.t('userProjects.ariaLabels.prevNxtButtons')} className={classes.buttonGroupStyle}>
           {prev_page ? (
             <CustomButton
               className={classes.floatLeft}
@@ -86,7 +87,7 @@ function UserProjects(props) {
               onClick={(e, page = prev_page.split('?')[1]) => handleSetState(fetchPage(page, props))}
               primaryButtonStyle
             >
-              {t('userProjects.prev')}
+              {i18n.t('userProjects.prev')}
             </CustomButton>
           ) : null}
           {next_page ? (
@@ -97,7 +98,7 @@ function UserProjects(props) {
               onClick={(e, page = next_page.split('?')[1]) => handleSetState(fetchPage(page, props))}
               primaryButtonStyle
             >
-              {t('userProjects.next')}
+              {i18n.t('userProjects.next')}
             </CustomButton>
           ) : null}
         </ButtonGroup>
@@ -105,9 +106,9 @@ function UserProjects(props) {
     );
   } else {
     return (
-      <ErrorPage error={t('userProjects.errors.noUserProjects')}>
+      <ErrorPage error={i18n.t('userProjects.errors.noUserProjects')}>
         <CustomButton primaryButtonStyle href="/projects/create">
-          Create Project
+          {i18n.t('pageWrapper.navbar.createProject')}
         </CustomButton>
       </ErrorPage>
     );
