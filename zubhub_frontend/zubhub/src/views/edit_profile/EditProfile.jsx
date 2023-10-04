@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { withFormik } from 'formik';
 
@@ -76,6 +76,7 @@ function EditProfile(props) {
     bio_el: React.useRef(null),
   };
   const username_check= React.useRef(null);
+  const i18n = useSelector(state => state.language.i18n);
 
   const [state, setState] = React.useState({
     locations: [],
@@ -102,7 +103,6 @@ function EditProfile(props) {
   };
 
   const { locations, tool_tip_open, open_delete_account_modal,dialog_error, } = state;
-  const { t } = props;
 
   return (
   <>
@@ -124,7 +124,7 @@ function EditProfile(props) {
                   color="textPrimary"
                   className={classes.titleStyle}
                 >
-                  {t('editProfile.welcomeMsg.primary')}
+                  {i18n.t('editProfile.welcomeMsg.primary')}
                 </Typography>
                 <Typography
                   className={classes.descStyle}
@@ -132,7 +132,7 @@ function EditProfile(props) {
                   color="textSecondary"
                   component="p"
                 >
-                  {t('editProfile.welcomeMsg.secondary')}
+                  {i18n.t('editProfile.welcomeMsg.secondary')}
                 </Typography>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -167,13 +167,13 @@ function EditProfile(props) {
                         className={classes.customLabelStyle}
                         htmlFor="username"
                       >
-                        {t('editProfile.inputs.username.label')}
+                        {i18n.t('editProfile.inputs.username.label')}
                       </InputLabel>
                       <ClickAwayListener
                         onClickAway={() => handleSetState(handleTooltipClose())}
                       >
                         <Tooltip
-                          title={t('editProfile.tooltips.noRealName')}
+                          title={i18n.t('editProfile.tooltips.noRealName')}
                           placement="top-start"
                           arrow
                           onClose={() => handleSetState(handleTooltipClose())}
@@ -198,7 +198,7 @@ function EditProfile(props) {
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
                             labelWidth={calculateLabelWidth(
-                              t('editProfile.inputs.username.label'),
+                              i18n.t('editProfile.inputs.username.label'),
                               document,
                             )}
                           />
@@ -211,7 +211,7 @@ function EditProfile(props) {
                         {(props.status && props.status['username']) ||
                           (props.touched['username'] &&
                             props.errors['username'] &&
-                            t(
+                            i18n.t(
                               `editProfile.inputs.username.errors.${props.errors['username']}`,
                             ))}
                       </FormHelperText>
@@ -236,7 +236,7 @@ function EditProfile(props) {
                         className={classes.customLabelStyle}
                         id="user_location"
                       >
-                        {t('editProfile.inputs.location.label')}
+                        {i18n.t('editProfile.inputs.location.label')}
                       </InputLabel>
                       <Select
                         labelId="user_location"
@@ -269,7 +269,7 @@ function EditProfile(props) {
                         {(props.status && props.status['user_location']) ||
                           (props.touched['user_location'] &&
                             props.errors['user_location'] &&
-                            t(
+                            i18n.t(
                               `editProfile.inputs.location.errors.${props.errors['user_location']}`,
                             ))}
                       </FormHelperText>
@@ -292,7 +292,7 @@ function EditProfile(props) {
                         className={classes.customLabelStyle}
                         htmlFor="email"
                       >
-                        {t('editProfile.inputs.email.label')}
+                        {i18n.t('editProfile.inputs.email.label')}
                       </InputLabel>
                       <OutlinedInput
                         ref={refs.email_el}
@@ -305,7 +305,7 @@ function EditProfile(props) {
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
                         labelWidth={calculateLabelWidth(
-                          t('editProfile.inputs.email.label'),
+                          i18n.t('editProfile.inputs.email.label'),
                           document,
                         )}
                       />
@@ -328,7 +328,7 @@ function EditProfile(props) {
                         className={classes.customLabelStyle}
                         htmlFor="phone"
                       >
-                        {t('editProfile.inputs.phone.label')}
+                        {i18n.t('editProfile.inputs.phone.label')}
                       </InputLabel>
                       <OutlinedInput
                         ref={refs.phone_el}
@@ -341,7 +341,7 @@ function EditProfile(props) {
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
                         labelWidth={calculateLabelWidth(
-                          t('editProfile.inputs.phone.label'),
+                          i18n.t('editProfile.inputs.phone.label'),
                           document,
                         )}
                       />
@@ -364,7 +364,7 @@ function EditProfile(props) {
                         className={classes.customLabelStyle}
                         htmlFor="password"
                       >
-                        {t('editProfile.inputs.password.label')}
+                        {i18n.t('editProfile.inputs.password.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -392,7 +392,7 @@ function EditProfile(props) {
                           </InputAdornment>
                         }
                         labelWidth={calculateLabelWidth(
-                          t('editProfile.inputs.password.label'),
+                          i18n.t('editProfile.inputs.password.label'),
                           document,
                         )}
                       />
@@ -403,7 +403,7 @@ function EditProfile(props) {
                         {(props.status && props.status['password']) ||
                           (props.touched['password'] &&
                             props.errors['password'] &&
-                            t(
+                            i18n.t(
                               `editProfile.inputs.password.errors.${props.errors['password']}`,
                             ))}
                       </FormHelperText>
@@ -426,7 +426,7 @@ function EditProfile(props) {
                         className={classes.customLabelStyle}
                         htmlFor="bio"
                       >
-                        {t('editProfile.inputs.bio.label')}
+                        {i18n.t('editProfile.inputs.bio.label')}
                       </InputLabel>
                       <OutlinedInput
                         ref={refs.bio_el}
@@ -441,7 +441,7 @@ function EditProfile(props) {
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
                         labelWidth={calculateLabelWidth(
-                          t('editProfile.inputs.bio.label'),
+                          i18n.t('editProfile.inputs.bio.label'),
                           document,
                         )}
                       />
@@ -455,13 +455,13 @@ function EditProfile(props) {
                           component="span"
                           className={classes.fieldHelperTextStyle}
                         >
-                          {t('editProfile.inputs.bio.helpText')}
+                          {i18n.t('editProfile.inputs.bio.helpText')}
                         </Typography>
                         <br />
                         {(props.status && props.status['bio']) ||
                           (props.touched['bio'] &&
                             props.errors['bio'] &&
-                            t(
+                            i18n.t(
                               `editProfile.inputs.bio.errors.${props.errors['bio']}`,
                             ))}
                       </FormHelperText>
@@ -477,7 +477,7 @@ function EditProfile(props) {
                       fullWidth
                       customButtonStyle
                     >
-                      {t('editProfile.inputs.submit')}
+                      {i18n.t('editProfile.inputs.submit')}
                     </CustomButton>
                   </Grid>
                 </Grid>
@@ -491,7 +491,7 @@ function EditProfile(props) {
                       customButtonStyle
                       fullWidth
                     >
-                      {t('editProfile.backToProfile')}
+                      {i18n.t('editProfile.backToProfile')}
                     </CustomButton>
                   </Link>
                 </Grid>
@@ -506,7 +506,7 @@ function EditProfile(props) {
                       color="textSecondary"
                       component="p"
                     >
-                      {t('editProfile.or')}
+                      {i18n.t('editProfile.or')}
                     </Typography>
                     <Divider className={classes.divider} />
                   </Box>
@@ -524,7 +524,7 @@ function EditProfile(props) {
                         handleSetState(handleToggleDeleteAccountModal(state))
                       }
                     >
-                      {t('profile.delete.label')}
+                      {i18n.t('profile.delete.label')}
                     </CustomButton>
                 </Grid>
               </Grid>
@@ -536,10 +536,10 @@ function EditProfile(props) {
             <Dialog
             open={open_delete_account_modal}
             onClose={() => handleSetState(handleToggleDeleteAccountModal(state))}
-            aria-labelledby={t('profile.delete.ariaLabels.deleteAccount')}
+            aria-labelledby={i18n.t('profile.delete.ariaLabels.deleteAccount')}
           >
             <DialogTitle id="delete-project">
-              {t('profile.delete.dialog.primary')}
+              {i18n.t('profile.delete.dialog.primary')}
             </DialogTitle>
             <Box
               component="p"
@@ -552,7 +552,7 @@ function EditProfile(props) {
               )}
             </Box>{' '}
             <DialogContent>
-              <Typography>{t('profile.delete.dialog.secondary')}</Typography>
+              <Typography>{i18n.t('profile.delete.dialog.secondary')}</Typography>
               <FormControl
                 className={clsx(classes.margin, classes.textField)}
                 variant="outlined"
@@ -564,7 +564,7 @@ function EditProfile(props) {
                   className={classes.customLabelStyle}
                   htmlFor="username"
                 >
-                  {t('profile.delete.dialog.inputs.username')}
+                  {i18n.t('profile.delete.dialog.inputs.username')}
                 </InputLabel>
                 <OutlinedInput
                   className={classes.customInputStyle}
@@ -584,7 +584,7 @@ function EditProfile(props) {
                 color="primary"
                 secondaryButtonStyle
               >
-                {t('profile.delete.dialog.cancel')}
+                {i18n.t('profile.delete.dialog.cancel')}
               </CustomButton>
               <CustomButton
                 variant="contained"
@@ -594,7 +594,7 @@ function EditProfile(props) {
                 dangerButtonStyle
                 customButtonStyle
               >
-                {t('profile.delete.dialog.proceed')}
+                {i18n.t('profile.delete.dialog.proceed')}
               </CustomButton>
             </DialogActions>
           </Dialog>
