@@ -1,10 +1,12 @@
 import { Box, FormControl, TextField, makeStyles } from '@material-ui/core';
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import styles from '../../../assets/js/styles';
 import { Editor, TagsInput } from '../../../components';
 import { searchTags } from '../script';
 import TextInput from '../../../components/form/textInput/TextInput';
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
+import configureStore from '../../../store/configureStore';
 
 function Step1({ formik, handleBlur }) {
   const commonClasses = makeStyles(styles)();
@@ -23,6 +25,8 @@ function Step1({ formik, handleBlur }) {
   ]);
 
   const clearSuggestions = () => setRemoteTags([]);
+
+  const i18n = useSelector(state => state.language.i18n);
 
   const handleTagChange = async value => {
     setValue(value);
@@ -47,16 +51,18 @@ function Step1({ formik, handleBlur }) {
     console.log('changed');
   }, [value, remoteTags, popularTags]);
 
+
+
   return (
     <div>
       <Box marginTop={6}>
         <FormControl fullWidth>
           <TextInput
-            label="Name your project"
+            label={i18n.t('createProject.inputs.title.label')}
             required={true}
             variant="outlined"
             name="title"
-            placeholder="Choose a name that best suites your project i.e Fun with Science"
+            placeholder={i18n.t('createProject.inputs.description.placeholder')}
             defaultValue={formik.values.title}
             onChange={_.debounce(formik.handleChange, 500)}
             className={commonClasses.inputText}
@@ -70,7 +76,7 @@ function Step1({ formik, handleBlur }) {
       <Box marginTop={6} marginBottom={5}>
         <FormControl fullWidth>
           <Editor
-            label="Share a few things about your project"
+            label={i18n.t('createProject.inputs.description.label')}
             required={true}
             value={formik.values.description}
             onChange={formik.handleChange}
@@ -81,7 +87,7 @@ function Step1({ formik, handleBlur }) {
             error={formik.touched.description ? formik.errors.description : ''}
             minRows={3}
             onBlur={formik.handleBlur}
-            placeholder="Welcome to the enchanting world of…science and nature!"
+            placeholder={i18n.t('createProject.inputs.description.helperText')}
           />
         </FormControl>
       </Box>
@@ -90,8 +96,8 @@ function Step1({ formik, handleBlur }) {
         <TagsInput
           required
           name="materials_used"
-          label="What materials did you use?"
-          description="Include the materials you used for your project, this could be measuring tapes, pencils, etc"
+          label={i18n.t('createProject.inputs.materialsUsed.label')}
+          description={i18n.t('createProject.inputs.materialsUsed.include')}
           selectedTags={formik.values.materials_used}
           error={formik.touched.materials_used && formik.errors.materials_used}
           popularTags={popularTags}
@@ -102,7 +108,7 @@ function Step1({ formik, handleBlur }) {
           clearSuggestions={clearSuggestions}
           removeTag={removeTag}
           handleBlur={formik.handleBlur}
-          placeholder="Start typing to materials used"
+          placeholder={i18n.t('createProject.inputs.materialsUsed.startTyping')}
         />
       </Box>
     </div>

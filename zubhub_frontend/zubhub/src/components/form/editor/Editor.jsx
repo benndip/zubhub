@@ -6,13 +6,14 @@ import {
   FormatItalicOutlined,
   FormatUnderlinedOutlined,
 } from '@material-ui/icons';
-import React, { memo, useMemo, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { editorStyle } from './editor.style';
 import FormLabel from '../../form_labels/formLabel';
 import styles from '../../../assets/js/styles';
 import clsx from 'clsx';
 import { debounce } from 'lodash';
+import { useSelector } from 'react-redux';
 
 const menu = [
   { name: 'copy', icon: FileCopyOutlined },

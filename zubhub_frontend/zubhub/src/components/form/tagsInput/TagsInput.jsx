@@ -6,6 +6,7 @@ import styles from '../../../assets/js/styles';
 import CustomButton from '../../button/Button';
 import { tagsInputStyles } from './tagsInput.styles';
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
 
 export default function TagsInput({
   label,
@@ -30,6 +31,8 @@ export default function TagsInput({
   const [isSearching, setIsSearching] = useState(false);
   selectedTags = [...(selectedTags ?? [])];
   const ref = useRef(null);
+
+  const i18n = useSelector(state => state.language.i18n);
 
   const handleChange = e => {
     setIsSearching(true);
@@ -66,7 +69,7 @@ export default function TagsInput({
       startIcon={<Add />}
     >
       {prefix && `${prefix} `}
-      {tag}
+      {i18n.t(`createProject.inputs.materialsUsed.popularTags.${tag}`)}
     </CustomButton>
   ));
 
@@ -74,12 +77,11 @@ export default function TagsInput({
     <CustomButton
       onClick={() => onSelectedTagClick(index)}
       className={classes.button}
-      primaryButtonStyle
       key={index}
       endIcon={<ClearRounded />}
     >
       {prefix && `${prefix}`}
-      {tag}
+      {i18n.t(`createProject.inputs.materialsUsed.popularTags.${tag}`)}
     </CustomButton>
   ));
 

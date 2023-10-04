@@ -363,9 +363,9 @@
         }
       },
       "description": {
-        "label": "Describe what it is",
+        "label": "Share a few things about your project",
         "helperText": "Tell us something interesting about the project! You can share what it is about, what inspired you to make it, your making process, fun and challenging moments you experienced, etc.",
-        "placeholder": "Describe your project ...",
+        "placeholder": "Choose a name that best suites your project i.e Fun with Science",
         "errors": {
           "max": "your description shouldn't be more than 10,000 characters",
           "required": "This field is required"
@@ -403,9 +403,21 @@
       "materialsUsed": {
         "label": "What materials did you use?",
         "addMore": "Add More",
+        "include": "Include the materials you used for your project, this could be measuring tapes, pencils, etc",
+        "startTyping": "Start typing to search materials used",
         "errors": {
           "max": "Looks like you used too many materials! It's ok to leave some out",
           "required": "Maybe you forgot to fill this one?"
+        },
+        "popularTags": {
+          "Glue": "Glue",
+          "Water": "Water",
+          "Paint": "Paint",
+          "Brush": "Brush",
+          "Battery": "Battery",
+          "Scissors": "Scissors",
+          "Cardboard": "Cardboard",
+          "Measuring tape": "Measuring tape"
         }
       },
       "category": {
@@ -454,6 +466,11 @@
     "errors": {
       "notLoggedIn": "You are not logged in. Click on the login button to get started",
       "unexpected": "Well, this is embarrasing! Seems like we could not create your project :( Maybe try again later?"
+    },
+    "steps": {
+      "Details": "Details",
+      "Photos/Videos": "Photos/Videos",
+      "Features": "Features"
     }
   },
 

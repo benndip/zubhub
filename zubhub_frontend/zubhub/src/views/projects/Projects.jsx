@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { toast } from 'react-toastify';
 
@@ -39,6 +39,8 @@ function Projects(props) {
   const classes = useStyles();
   const common_classes = useCommonStyles();
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const [state, setState] = React.useState({
     loading: true,
   });
@@ -60,7 +62,6 @@ function Projects(props) {
   const { results: projects, previous: prev_page, next: next_page } = props.projects.all_projects;
   const { hero } = props.projects;
   const staff_picks = props.projects.staff_picks;
-  const { t } = props;
 
   if (loading) {
     return <LoadingPage />;
@@ -81,7 +82,7 @@ function Projects(props) {
                       primaryButtonStyle
                       onClick={() => props.history.push('/projects/create')}
                     >
-                      {t('projects.shareProject')}
+                      {i18n.t('projects.shareProject')}
                     </CustomButton>
                     <a
                       className={common_classes.textDecorationNone}
@@ -90,7 +91,7 @@ function Projects(props) {
                       rel="noreferrer"
                     >
                       <CustomButton className={classes.heroButtonStyle} size="small" darkDangerButtonStyle>
-                        {t('projects.exploreIdeas')}
+                        {i18n.t('projects.exploreIdeas')}
                       </CustomButton>
                     </a>
                     <CustomButton
@@ -99,7 +100,7 @@ function Projects(props) {
                       customWarningButtonStyle
                       onClick={() => props.history.push('/ambassadors')}
                     >
-                      {t('projects.zubhubAmbassadors')}
+                      {i18n.t('projects.zubhubAmbassadors')}
                     </CustomButton>
                   </Box>
                   <Box
@@ -107,8 +108,8 @@ function Projects(props) {
                       [common_classes.displayNone]: !hero.activity_url,
                     })}
                   >
-                    <img className={classes.heroImageTextSmallStyle} src={new_stuff} alt={t('projects.newStuff')} />
-                    <img className={classes.heroImageTextStyle} src={new_stuff} alt={t('projects.newStuff')} />
+                    <img className={classes.heroImageTextSmallStyle} src={new_stuff} alt={i18n.t('projects.newStuff')} />
+                    <img className={classes.heroImageTextStyle} src={new_stuff} alt={i18n.t('projects.newStuff')} />
                     <a
                       className={classes.heroImageLinkStyle}
                       href={hero.activity_url}
@@ -141,7 +142,7 @@ function Projects(props) {
                       color="textPrimary"
                       className={classes.titleStyle}
                     >
-                      {t('projects.allProjects')}
+                      {i18n.t('projects.allProjects')}
                     </Typography>
                   </Grid>
                 ) : null}
@@ -164,7 +165,7 @@ function Projects(props) {
                   </Grid>
                 ))}
               </Grid>
-              <div aria-label={t('projects.ariaLabels.prevNxtButtons')} className={classes.buttonGroupStyle}>
+              <div aria-label={i18n.t('projects.ariaLabels.prevNxtButtons')} className={classes.buttonGroupStyle}>
                 {prev_page ? (
                   <CustomButton
                     className={clsx(classes.floatLeft, classes.buttonGroupStyleAlternative)}
@@ -176,7 +177,7 @@ function Projects(props) {
                     }}
                     primaryButtonStyle
                   >
-                    {t('projects.prev')}
+                    {i18n.t('projects.prev')}
                   </CustomButton>
                 ) : null}
                 {next_page ? (
@@ -190,7 +191,7 @@ function Projects(props) {
                     }}
                     primaryButtonStyle
                   >
-                    {t('projects.next')}
+                    {i18n.t('projects.next')}
                   </CustomButton>
                 ) : null}
               </div>
@@ -201,8 +202,8 @@ function Projects(props) {
             <Container className={classes.welcomeContainerStyle}>
               <img className={classes.welcomeStyle} src={hikingIcon} alt={'Create project'} />
               <Box className={classes.welcomeBoxStyle}>
-                <Typography variant="h1">{t('projects.welcome')}!</Typography>
-                <Typography variant="h5">{t('projects.errors.noProject')}</Typography>
+                <Typography variant="h1">{i18n.t('projects.welcome')}!</Typography>
+                <Typography variant="h5">{i18n.t('projects.errors.noProject')}</Typography>
                 <Box>
                   <CustomButton
                     className={classes.heroButtonStyle}
@@ -210,7 +211,7 @@ function Projects(props) {
                     primaryButtonStyle
                     onClick={() => props.history.push('/projects/create')}
                   >
-                    {t('projects.createProject')}
+                    {i18n.t('projects.createProject')}
                   </CustomButton>
                   <a
                     className={common_classes.textDecorationNone}
@@ -219,7 +220,7 @@ function Projects(props) {
                     rel="noreferrer"
                   >
                     <CustomButton className={classes.heroButtonStyle} size="small" darkDangerButtonStyle>
-                      {t('projects.exploreIdeas')}
+                      {i18n.t('projects.exploreIdeas')}
                     </CustomButton>
                   </a>
                 </Box>
@@ -230,7 +231,7 @@ function Projects(props) {
       </>
     );
   } else {
-    return <ErrorPage error={t('projects.errors.unexpected')} />;
+    return <ErrorPage error={i18n.t('projects.errors.unexpected')} />;
   }
 }
 

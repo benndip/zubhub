@@ -26,7 +26,7 @@ import { useFormik } from 'formik';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState, lazy } from 'react';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import StepWizard from 'react-step-wizard';
 import { toast } from 'react-toastify';
@@ -74,6 +74,8 @@ function CreateProject(props) {
   };
   const toggleAddTagsDialog = () => setAddTagsDialog(!addTagsDialog);
   const clearSuggestions = () => setRemoteTags([]);
+
+  const i18n = useSelector(state => state.language.i18n);
 
   const handleSetState = obj => {
     if (obj) {
@@ -237,7 +239,7 @@ function CreateProject(props) {
         )}
       </Box>
       <Typography className={clsx(classes.stepLabel, (isActive(index) || isCompleted(index)) && classes.activeLabel)}>
-        {label}
+        {i18n.t(`createProject.steps.${label}`)}
       </Typography>
     </Box>
   ));
@@ -262,7 +264,7 @@ function CreateProject(props) {
         {props.match.params.id && (
           <>
             <CustomButton onClick={togglePreview} className={classes.previewButton} variant="outlined">
-              Preview
+            {i18n.t('project.publish.preview')}
             </CustomButton>
             <Box className={clsx(classes.draft, draftStatus === DRAFT_STATUSES.saved && classes.savedToDraft)}>
               {draftStatus === DRAFT_STATUSES.saving ? <CircularProgress size={20} color="inherit" /> : null}
@@ -280,8 +282,8 @@ function CreateProject(props) {
       <Box className={classes.formContainer}>
         <Grid item md={12} lg={12}>
           <Box sx={{ textAlign: isSmallScreen ? 'left' : 'center' }}>
-            <Typography className={clsx(commonClasses.title1)}>Create Project</Typography>
-            <Typography>Tell us about your amazing project !</Typography>
+            <Typography className={clsx(commonClasses.title1)}>{i18n.t('createProject.welcomeMsg.primary')}</Typography>
+            <Typography>{i18n.t('createProject.welcomeMsg.secondary')}</Typography>
           </Box>
 
           {/* Step Navigation UI */}
@@ -304,7 +306,7 @@ function CreateProject(props) {
               primaryButtonOutlinedStyle
               startIcon={<ArrowBackIosRounded className={classes.nextButton} />}
             >
-              Previous
+              {i18n.t('createTeam.inputs.previous')}
             </CustomButton>
           )}
 
@@ -315,7 +317,7 @@ function CreateProject(props) {
             primaryButtonStyle
             endIcon={<ArrowForwardIosRounded className={classes.nextButton} />}
           >
-            {activeStep == 3 ? 'Publish' : 'Next'}
+            {activeStep == 3 ? i18n.t('createTeam.inputs.activityDetails.publish.label') : i18n.t('createTeam.inputs.next')}
           </CustomButton>
 
           <Modal.WithIcon
