@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Box, ButtonGroup, Container, Card, Typography } from '@material-ui/core';
@@ -30,6 +30,8 @@ const useStyles = makeStyles(styles);
 function Ambassadors(props) {
   const classes = useStyles();
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const [state, setState] = React.useState({
     loading: true,
     ambassadors: {},
@@ -47,9 +49,7 @@ function Ambassadors(props) {
     }
   };
 
-  const { loading, ambassadors } = state;
-  const { t } = props;
-  
+  const { loading, ambassadors } = state;  
 
   if (loading) {
     return <LoadingPage />;
@@ -95,7 +95,7 @@ function Ambassadors(props) {
             ))}
           </Grid>
           <ButtonGroup
-            aria-label={t('staffPickDetails.ariaLabels.prevNxtButtons')}
+            aria-label={i18n.t('staffPickDetails.ariaLabels.prevNxtButtons')}
             className={classes.buttonGroupStyle}
           >
             {ambassadors.projects.prev ? (
@@ -109,7 +109,7 @@ function Ambassadors(props) {
                 }}
                 primaryButtonStyle
               >
-                {t('staffPickDetails.prev')}
+                {i18n.t('staffPickDetails.prev')}
               </CustomButton>
             ) : null}
             {ambassadors.projects.next ? (
@@ -123,7 +123,7 @@ function Ambassadors(props) {
                 }}
                 primaryButtonStyle
               >
-                {t('staffPickDetails.next')}
+                {i18n.t('staffPickDetails.next')}
               </CustomButton>
             ) : null}
           </ButtonGroup>
@@ -132,7 +132,7 @@ function Ambassadors(props) {
       </Box>
     );
   } else {
-    return <ErrorPage error={t('ambassadors.errors.page_empty')} />;
+    return <ErrorPage error={i18n.t('ambassadors.errors.page_empty')} />;
   }
 }
 

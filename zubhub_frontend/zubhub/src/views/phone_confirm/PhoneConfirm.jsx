@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -35,6 +35,8 @@ function PhoneConfirm(props) {
 
   let { username, key } = getUsernameAndKey(props.location.search);
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const [state, setState] = React.useState({
     username: username ?? null,
     key: key ?? null,
@@ -51,7 +53,6 @@ function PhoneConfirm(props) {
 
   username = state.username;
   let errors = state.errors;
-  const { t } = props;
 
   return (
     <Box className={classes.root}>
@@ -72,7 +73,7 @@ function PhoneConfirm(props) {
                   color="textPrimary"
                   className={classes.titleStyle}
                 >
-                  {t('phoneConfirm.welcomeMsg.primary')}
+                  {i18n.t('phoneConfirm.welcomeMsg.primary')}
                 </Typography>
                 <Typography
                   className={classes.descStyle}
@@ -80,7 +81,7 @@ function PhoneConfirm(props) {
                   color="textSecondary"
                   component="p"
                 >
-                  {t('phoneConfirm.welcomeMsg.secondary').replace(
+                  {i18n.t('phoneConfirm.welcomeMsg.secondary').replace(
                     '<>',
                     username,
                   )}
@@ -105,7 +106,7 @@ function PhoneConfirm(props) {
                       primaryButtonStyle
                       customButtonStyle
                     >
-                      {t('phoneConfirm.inputs.submit')}
+                      {i18n.t('phoneConfirm.inputs.submit')}
                     </CustomButton>
                   </Grid>
                 </Grid>

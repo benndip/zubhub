@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import CheckIcon from '@material-ui/icons/CheckCircle';
 import { toast } from 'react-toastify';
 import child from '../../assets/images/child.jpg';
@@ -31,6 +31,7 @@ import new_stuff from '../../assets/images/new_stuff.svg';
 import styles from '../../assets/js/styles/views/projects/projectsStyles';
 import commonStyles from '../../assets/js/styles';
 import hikingIcon from '../../assets/images/hiking.svg';
+import { changeLanguage } from '../../store/actions/languageActions';
 
 const useStyles = makeStyles(styles);
 const useCommonStyles = makeStyles(commonStyles);
@@ -44,6 +45,8 @@ const useCommonStyles = makeStyles(commonStyles);
 function Projects(props) {
   const classes = useStyles();
   const common_classes = useCommonStyles();
+
+  const i18n = useSelector(state => state.language.i18n);
 
   const [activeSlide, setActiveSlide] = React.useState(0);
 
@@ -59,7 +62,6 @@ function Projects(props) {
   React.useEffect(() => {
     fetchStaffPicks(props);
     handleSetState(fetchPage(null, props));
-
     const checkMobileView = () => {
       setState((prevState) => ({
         ...prevState,
@@ -91,7 +93,6 @@ function Projects(props) {
   } = props.projects.all_projects;
   const { hero } = props.projects;
   const staff_picks = props.projects.staff_picks;
-  const { t } = props;
 
   if (loading) {
     return <LoadingPage />;
@@ -117,11 +118,11 @@ function Projects(props) {
                    <Box className={classes.heroMessageContainerStyle}>
                      <br />
                      <Typography className={classes.heroMessageSecondaryStyle}>
-                       {t('projects.1')}
+                       {i18n.t('projects.1')}
                      </Typography>
                      <br />
                      <Typography className={classes.heroMessageSecondaryStyle}>
-                       {t('projects.2')}
+                       {i18n.t('projects.2')}
                      </Typography>
                      <br />
                      <Typography className={classes.heroMessagePrimaryStyle}>
@@ -134,7 +135,7 @@ function Projects(props) {
                        primaryButtonStyle
                        onClick={() => props.history.push('/login')}
                      >
-                       {t('projects.shareProject')}
+                       {i18n.t('projects.shareProject')}
                      </CustomButton>
                    </Box>
                    {!state.isMobileView && hero && hero.id && (
@@ -170,7 +171,7 @@ function Projects(props) {
                   primaryButtonStyle
                   onClick={() => props.history.push('/login')}
                 >
-                  {t('projects.login')}
+                  {i18n.t('projects.login')}
               </CustomButton>
 
           </Box>
@@ -184,8 +185,8 @@ function Projects(props) {
                   alt={'Create project'}
                 />
                 <Box className={classes.welcomeBoxStyle}>
-                  <Typography variant="h1">{t('projects.welcome')}!</Typography>
-                  <Typography variant="h5">{t('projects.errors.noProject')}</Typography>
+                  <Typography variant="h1">{i18n.t('projects.welcome')}!</Typography>
+                  <Typography variant="h5">{i18n.t('projects.errors.noProject')}</Typography>
                   <Box>
                     <CustomButton
                       className={classes.heroButtonStyle}
@@ -193,7 +194,7 @@ function Projects(props) {
                       primaryButtonStyle
                       onClick={() => props.history.push('/projects/create')}
                     >
-                      {t('projects.createProject')}
+                      {i18n.t('projects.createProject')}
                     </CustomButton>
                     <a
                       className={common_classes.textDecorationNone}
@@ -210,7 +211,7 @@ function Projects(props) {
                         size="small"
                         darkDangerButtonStyle
                       >
-                        {t('projects.exploreIdeas')}
+                        {i18n.t('projects.exploreIdeas')}
                       </CustomButton>
                     </a>
                   </Box>
@@ -236,16 +237,16 @@ function Projects(props) {
                     </Box>)}
                     <Box className={classes.MessageContainerStyle} style={{ marginLeft: state.isMobileView ? '0' : '15em' }}>
                     <br/><Typography className={classes.MessagePrimaryStyle}>
-                        {t('projects.child.title')}
+                        {i18n.t('projects.child.title')}
                       </Typography><br/><br/>
                       <Typography className={classes.MessageSecondaryStyle}>
-                      <CheckIcon style={{ color: '#00B8C4' }}/>  {t('projects.child.1')}
+                      <CheckIcon style={{ color: '#00B8C4' }}/>  {i18n.t('projects.child.1')}
                       </Typography><br/>
                       <Typography className={classes.MessageSecondaryStyle}>
-                      <CheckIcon style={{ color: '#00B8C4' }}/>  {t('projects.child.2')}
+                      <CheckIcon style={{ color: '#00B8C4' }}/>  {i18n.t('projects.child.2')}
                       </Typography><br/>
                       <Typography className={classes.MessageSecondaryStyle}>
-                      <CheckIcon style={{ color: '#00B8C4' }}/>  {t('projects.child.3')}
+                      <CheckIcon style={{ color: '#00B8C4' }}/>  {i18n.t('projects.child.3')}
                       </Typography><br/>
                       <CustomButton
                         className={classes.heroButtonStyle}
@@ -253,7 +254,7 @@ function Projects(props) {
                         primaryButtonStyle
                         onClick={() => props.history.push('/ambassadors')}
                       >
-                        {t('projects.zubhubAmbassadors')}
+                        {i18n.t('projects.zubhubAmbassadors')}
                       </CustomButton>
                     </Box>
                     {state.isMobileView ? (
@@ -275,13 +276,13 @@ function Projects(props) {
             <Box className={classes.heroContainerStyle}>
               <Box className={classes.MessageContainerStyle}>
               <br/><Typography className={classes.MessagePrimaryStyle}>
-                  {t('projects.teams.title')}
+                  {i18n.t('projects.teams.title')}
                 </Typography><br></br>
                 <Typography className={classes.MessageSecondaryStyle}>
-                {t('projects.teams.1')}
+                {i18n.t('projects.teams.1')}
                 </Typography><br/>
                 <Typography className={classes.MessageSecondaryStyle}>
-                {t('projects.teams.2')}
+                {i18n.t('projects.teams.2')}
                 </Typography>
                 <CustomButton
                   className={classes.heroButtonStyle}
@@ -289,7 +290,7 @@ function Projects(props) {
                   primaryButtonStyle
                   onClick={() => props.history.push('/signup')}
                 >
-                  {t('projects.teams.button')}
+                  {i18n.t('projects.teams.button')}
                 </CustomButton>
               </Box>
               {state.isMobileView ? (
@@ -334,16 +335,16 @@ function Projects(props) {
                       <Typography
                         className={classes.MessagePrimaryStyle}
                       >
-                        {t('projects.reviews.title')}
+                        {i18n.t('projects.reviews.title')}
                       </Typography>
                       <Typography className={classes.heroMessageSecondaryStyle}>
-                        {t('projects.reviews.1.review')}
+                        {i18n.t('projects.reviews.1.review')}
                       </Typography>
                       <Typography className={classes.heroMessagePrimaryStyle}>
-                        {t('projects.reviews.1.name')}
+                        {i18n.t('projects.reviews.1.name')}
                       </Typography>
                       <Typography className={classes.MessageSecondaryStyle}>
-                        {t('projects.reviews.1.designation')}
+                        {i18n.t('projects.reviews.1.designation')}
                       </Typography>
                     </Box>
                     <Box
@@ -366,16 +367,16 @@ function Projects(props) {
                       <Typography
                         className={classes.MessagePrimaryStyle}
                       >
-                        {t('projects.reviews.title')}
+                        {i18n.t('projects.reviews.title')}
                       </Typography>
                       <Typography className={classes.heroMessageSecondaryStyle}>
-                        {t('projects.reviews.2.review')}
+                        {i18n.t('projects.reviews.2.review')}
                       </Typography>
                       <Typography className={classes.heroMessagePrimaryStyle}>
-                        {t('projects.reviews.2.name')}
+                        {i18n.t('projects.reviews.2.name')}
                       </Typography>
                       <Typography className={classes.MessageSecondaryStyle}>
-                        {t('projects.reviews.2.designation')}
+                        {i18n.t('projects.reviews.2.designation')}
                       </Typography>
                     </Box>
                     <Box
@@ -398,16 +399,16 @@ function Projects(props) {
                       <Typography
                         className={classes.MessagePrimaryStyle}
                       >
-                        {t('projects.reviews.title')}
+                        {i18n.t('projects.reviews.title')}
                       </Typography>
                       <Typography className={classes.heroMessageSecondaryStyle}>
-                        {t('projects.reviews.3.review')}
+                        {i18n.t('projects.reviews.3.review')}
                       </Typography>
                       <Typography className={classes.heroMessagePrimaryStyle}>
-                        {t('projects.reviews.3.name')}
+                        {i18n.t('projects.reviews.3.name')}
                       </Typography>
                       <Typography className={classes.MessageSecondaryStyle}>
-                        {t('projects.reviews.3.designation')}
+                        {i18n.t('projects.reviews.3.designation')}
                       </Typography>
                     </Box>
                     <Box
@@ -434,13 +435,13 @@ function Projects(props) {
             <Box className={classes.heroContainerStyle}>
               <Box className={classes.MessageContainerStyle}>
               <br/><Typography className={classes.MessagePrimaryStyle}>
-                  {t('projects.global.title')}
+                  {i18n.t('projects.global.title')}
                 </Typography><br></br>
                 <Typography className={classes.MessageSecondaryStyle}>
-                {t('projects.global.body')}
+                {i18n.t('projects.global.body')}
                 </Typography><br/>
                 <Typography className={classes.MessageSecondaryStyle}>
-                {t('projects.global.body2')}
+                {i18n.t('projects.global.body2')}
                 </Typography>
                 <CustomButton
                   className={classes.heroButtonStyle}
@@ -448,7 +449,7 @@ function Projects(props) {
                   primaryButtonStyle
                   onClick={() => props.history.push('/signup')}
                 >
-                  {t('projects.global.button')}
+                  {i18n.t('projects.global.button')}
                 </CustomButton>
                 
                 <CustomButton
@@ -458,7 +459,7 @@ function Projects(props) {
                   secondaryButtonStyle
                   onClick={() => props.history.push('/login')}
                 >
-                  {t('projects.global.button2')}
+                  {i18n.t('projects.global.button2')}
                 </CustomButton>
               </Box>
               <Box
@@ -477,7 +478,7 @@ function Projects(props) {
     </>
     );
   } else {
-    return <ErrorPage error={t('projects.errors.unexpected')} />;
+    return <ErrorPage error={i18n.t('projects.errors.unexpected')} />;
   }
 }
 

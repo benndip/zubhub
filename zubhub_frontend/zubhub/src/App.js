@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withTranslation } from 'react-i18next';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CreateActivity from './views/create_activity/CreateActivity';
@@ -6,6 +6,8 @@ import CreateActivity from './views/create_activity/CreateActivity';
 import LoadingPage from './views/loading/LoadingPage';
 import PageWrapper from './views/PageWrapper';
 import ScrollToTop from './ScrollToTop';
+import { useDispatch } from 'react-redux';
+import { changeLanguage } from './store/actions/languageActions';
 
 const SearchResults = React.lazy(() =>
   import('./views/search_results/SearchResults'),
@@ -110,6 +112,23 @@ const LazyImport = props => {
 };
 
 function App(props) {
+
+  const dispatch = useDispatch()
+
+const getUserLocale = () =>{
+  let locale = localStorage.getItem('locale');
+  console.log("Locale Found: " + locale);
+  if(!locale){
+    dispatch(changeLanguage('en'));
+  }else{
+    dispatch(changeLanguage(locale));
+  }
+}
+
+useEffect(() => {
+  getUserLocale()
+}, [])
+
   return (
     <Router>
       <ScrollToTop />

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { withFormik } from 'formik';
 
@@ -71,6 +71,8 @@ function Signup(props) {
     date_of_birth_el: React.useRef(null),
   };
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const [state, setState] = React.useState({
     locations: [],
     show_password1: false,
@@ -120,7 +122,6 @@ function Signup(props) {
     show_password2,
     subscribe_box_checked,
   } = state;
-  const { t } = props;
 
   return (
     <Box className={classes.root}>
@@ -141,7 +142,7 @@ function Signup(props) {
                   color="textPrimary"
                   className={classes.titleStyle}
                 >
-                  {t('signup.welcomeMsg.primary')}
+                  {i18n.t('signup.welcomeMsg.primary')}
                 </Typography>
                 <Typography
                   className={classes.descStyle}
@@ -149,7 +150,7 @@ function Signup(props) {
                   color="textSecondary"
                   component="p"
                 >
-                  {t('signup.welcomeMsg.secondary')}
+                  {i18n.t('signup.welcomeMsg.secondary')}
                 </Typography>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -184,13 +185,13 @@ function Signup(props) {
                         className={classes.customLabelStyle}
                         htmlFor="username"
                       >
-                        {t('signup.inputs.username.label')}
+                        {i18n.t('signup.inputs.username.label')}
                       </InputLabel>
                       <ClickAwayListener
                         onClickAway={() => handleSetState(handleTooltipClose())}
                       >
                         <Tooltip
-                          title={t('signup.tooltips.noRealName')}
+                          title={i18n.t('signup.tooltips.noRealName')}
                           placement="top-start"
                           arrow
                           onClose={() => handleSetState(handleTooltipClose())}
@@ -211,7 +212,7 @@ function Signup(props) {
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
                             labelWidth={calculateLabelWidth(
-                              t('signup.inputs.username.label'),
+                              i18n.t('signup.inputs.username.label'),
                               document,
                             )}
                           />
@@ -224,7 +225,7 @@ function Signup(props) {
                         {(props.status && props.status['username']) ||
                           (props.touched['username'] &&
                             props.errors['username'] &&
-                            t(
+                            i18n.t(
                               `signup.inputs.username.errors.${props.errors['username']}`,
                             ))}
                       </FormHelperText>
@@ -248,7 +249,7 @@ function Signup(props) {
                         className={classes.customLabelStyle}
                         id="user_location"
                       >
-                        {t('signup.inputs.location.label')}
+                        {i18n.t('signup.inputs.location.label')}
                       </InputLabel>
                       <Select
                         ref={refs.location_el}
@@ -265,7 +266,7 @@ function Signup(props) {
                         onBlur={props.handleBlur}
                         // label="Location"
                         labelWidth={calculateLabelWidth(
-                          t('signup.inputs.location.label'),
+                          i18n.t('signup.inputs.location.label'),
                           document,
                         )}
                       >
@@ -286,7 +287,7 @@ function Signup(props) {
                         {(props.status && props.status['user_location']) ||
                           (props.touched['user_location'] &&
                             props.errors['user_location'] &&
-                            t(
+                            i18n.t(
                               `signup.inputs.location.errors.${props.errors['user_location']}`,
                             ))}
                       </FormHelperText>
@@ -311,7 +312,7 @@ function Signup(props) {
                         htmlFor="dateOfBirth"
                         shrink
                       >
-                        {t('signup.inputs.dateOfBirth.label')}
+                        {i18n.t('signup.inputs.dateOfBirth.label')}
                       </InputLabel>
                       <OutlinedInput
                         ref={refs.date_of_birth_el}
@@ -329,7 +330,7 @@ function Signup(props) {
                         {(props.status && props.status['dateOfBirth']) ||
                           (props.touched['dateOfBirth'] &&
                             props.errors['dateOfBirth'] &&
-                            t(
+                            i18n.t(
                               `signup.inputs.dateOfBirth.errors.${props.errors['dateOfBirth']}`,
                             ))}
                       </FormHelperText>
@@ -353,7 +354,7 @@ function Signup(props) {
                         shrink
                         htmlFor="phone"
                       >
-                        {t('signup.inputs.phone.label')}
+                        {i18n.t('signup.inputs.phone.label')}
                       </InputLabel>
                       <OutlinedInput
                         ref={refs.phone_el}
@@ -374,7 +375,7 @@ function Signup(props) {
                         {(props.status && props.status['phone']) ||
                           (props.touched['phone'] &&
                             props.errors['phone'] &&
-                            t(
+                            i18n.t(
                               `signup.inputs.phone.errors.${props.errors['phone']}`,
                             ))}
                       </FormHelperText>
@@ -397,7 +398,7 @@ function Signup(props) {
                         className={classes.customLabelStyle}
                         htmlFor="email"
                       >
-                        {t('signup.inputs.email.label')}
+                        {i18n.t('signup.inputs.email.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -407,7 +408,7 @@ function Signup(props) {
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
                         labelWidth={calculateLabelWidth(
-                          t('signup.inputs.email.label'),
+                          i18n.t('signup.inputs.email.label'),
                           document,
                         )}
                       />
@@ -418,7 +419,7 @@ function Signup(props) {
                         {(props.status && props.status['email']) ||
                           (props.touched['email'] &&
                             props.errors['email'] &&
-                            t(
+                            i18n.t(
                               `signup.inputs.email.errors.${props.errors['email']}`,
                             ))}
                       </FormHelperText>
@@ -442,7 +443,7 @@ function Signup(props) {
                         className={classes.customLabelStyle}
                         htmlFor="password1"
                       >
-                        {t('signup.inputs.password1.label')}
+                        {i18n.t('signup.inputs.password1.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -454,7 +455,7 @@ function Signup(props) {
                         endAdornment={
                           <InputAdornment position="end">
                             <IconButton
-                              aria-label={t(
+                              aria-label={i18n.t(
                                 'signup.ariaLabel.togglePasswordVisibility',
                               )}
                               onClick={() =>
@@ -475,7 +476,7 @@ function Signup(props) {
                           </InputAdornment>
                         }
                         labelWidth={calculateLabelWidth(
-                          t('signup.inputs.password1.label'),
+                          i18n.t('signup.inputs.password1.label'),
                           document,
                         )}
                       />
@@ -486,7 +487,7 @@ function Signup(props) {
                         {(props.status && props.status['password1']) ||
                           (props.touched['password1'] &&
                             props.errors['password1'] &&
-                            t(
+                            i18n.t(
                               `signup.inputs.password1.errors.${props.errors['password1']}`,
                             ))}
                       </FormHelperText>
@@ -510,7 +511,7 @@ function Signup(props) {
                         className={classes.customLabelStyle}
                         htmlFor="password2"
                       >
-                        {t('signup.inputs.password2.label')}
+                        {i18n.t('signup.inputs.password2.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -522,7 +523,7 @@ function Signup(props) {
                         endAdornment={
                           <InputAdornment position="end">
                             <IconButton
-                              aria-label={t(
+                              aria-label={i18n.t(
                                 'signup.ariaLabel.togglePasswordVisibility',
                               )}
                               onClick={() =>
@@ -543,7 +544,7 @@ function Signup(props) {
                           </InputAdornment>
                         }
                         labelWidth={calculateLabelWidth(
-                          t('signup.inputs.password2.label'),
+                          i18n.t('signup.inputs.password2.label'),
                           document,
                         )}
                       />
@@ -554,7 +555,7 @@ function Signup(props) {
                         {(props.status && props.status['password2']) ||
                           (props.touched['password2'] &&
                             props.errors['password2'] &&
-                            t(
+                            i18n.t(
                               `signup.inputs.password2.errors.${props.errors['password2']}`,
                             ))}
                       </FormHelperText>
@@ -577,7 +578,7 @@ function Signup(props) {
                         className={classes.customLabelStyle}
                         htmlFor="bio"
                       >
-                        {t('signup.inputs.bio.label')}
+                        {i18n.t('signup.inputs.bio.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -590,7 +591,7 @@ function Signup(props) {
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
                         labelWidth={calculateLabelWidth(
-                          t('signup.inputs.bio.label'),
+                          i18n.t('signup.inputs.bio.label'),
                           document,
                         )}
                       />
@@ -604,13 +605,13 @@ function Signup(props) {
                           component="span"
                           className={classes.fieldHelperTextStyle}
                         >
-                          {t('signup.inputs.bio.helpText')}
+                          {i18n.t('signup.inputs.bio.helpText')}
                         </Typography>
                         <br />
                         {(props.status && props.status['bio']) ||
                           (props.touched['bio'] &&
                             props.errors['bio'] &&
-                            t(
+                            i18n.t(
                               `signup.inputs.bio.errors.${props.errors['bio']}`,
                             ))}
                       </FormHelperText>
@@ -638,7 +639,7 @@ function Signup(props) {
                           component="span"
                           className={classes.fieldHelperTextStyle}
                         >
-                          {t('signup.unsubscribe')}
+                          {i18n.t('signup.unsubscribe')}
                         </Typography>
                       }
                       labelPlacement="end"
@@ -654,7 +655,7 @@ function Signup(props) {
                       fullWidth
                       customButtonStyle
                     >
-                      {t('signup.inputs.submit')}
+                      {i18n.t('signup.inputs.submit')}
                     </CustomButton>
                   </Grid>
                 </Grid>
@@ -668,7 +669,7 @@ function Signup(props) {
                       color="textSecondary"
                       component="p"
                     >
-                      {t('signup.alreadyAMember')}
+                      {i18n.t('signup.alreadyAMember')}
                     </Typography>
                     <Divider className={classes.divider} />
                   </Box>
@@ -682,7 +683,7 @@ function Signup(props) {
                       customButtonStyle
                       fullWidth
                     >
-                      {t('signup.login')}
+                      {i18n.t('signup.login')}
                     </CustomButton>
                   </Link>
                 </Grid>

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Visibility from '@material-ui/icons/Visibility';
@@ -54,6 +54,8 @@ function Login(props) {
     show_password: false,
   });
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const handleSetState = obj => {
     if (obj) {
       Promise.resolve(obj).then(obj => {
@@ -63,7 +65,6 @@ function Login(props) {
   };
 
   const { show_password } = state;
-  const { t } = props;
 
   return (
     <Box className={classes.root}>
@@ -84,7 +85,7 @@ function Login(props) {
                   color="textPrimary"
                   className={classes.titleStyle}
                 >
-                  {t('login.welcomeMsg.primary')}
+                  {i18n.t('login.welcomeMsg.primary')}
                 </Typography>
                 <Typography
                   className={classes.descStyle}
@@ -92,7 +93,7 @@ function Login(props) {
                   color="textSecondary"
                   component="p"
                 >
-                  {t('login.welcomeMsg.secondary')}
+                  {i18n.t('login.welcomeMsg.secondary')}
                 </Typography>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -127,7 +128,7 @@ function Login(props) {
                         className={classes.customLabelStyle}
                         htmlFor="username"
                       >
-                        {t('login.inputs.username.label')}
+                        {i18n.t('login.inputs.username.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -137,7 +138,7 @@ function Login(props) {
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
                         labelWidth={calculateLabelWidth(
-                          t('login.inputs.username.label'),
+                          i18n.t('login.inputs.username.label'),
                           document,
                         )}
                       />
@@ -148,7 +149,7 @@ function Login(props) {
                         {(props.status && props.status['username']) ||
                           (props.touched['username'] &&
                             props.errors['username'] &&
-                            t(
+                            i18n.t(
                               `login.inputs.username.errors.${props.errors['username']}`,
                             ))}
                       </FormHelperText>
@@ -171,7 +172,7 @@ function Login(props) {
                         className={classes.customLabelStyle}
                         htmlFor="password"
                       >
-                        {t('login.inputs.password.label')}
+                        {i18n.t('login.inputs.password.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -199,7 +200,7 @@ function Login(props) {
                           </InputAdornment>
                         }
                         labelWidth={calculateLabelWidth(
-                          t('login.inputs.password.label'),
+                          i18n.t('login.inputs.password.label'),
                           document,
                         )}
                       />
@@ -210,7 +211,7 @@ function Login(props) {
                         {(props.status && props.status['password']) ||
                           (props.touched['password'] &&
                             props.errors['password'] &&
-                            t(
+                            i18n.t(
                               `login.inputs.password.errors.${props.errors['password']}`,
                             ))}
                       </FormHelperText>
@@ -225,7 +226,7 @@ function Login(props) {
                       customButtonStyle
                       fullWidth
                     >
-                      {t('login.inputs.submit')}
+                      {i18n.t('login.inputs.submit')}
                     </CustomButton>
                   </Grid>
                 </Grid>
@@ -240,7 +241,7 @@ function Login(props) {
                       color="textSecondary"
                       component="p"
                     >
-                      {t('login.notAMember')}
+                      {i18n.t('login.notAMember')}
                     </Typography>
                     <Divider className={classes.divider} />
                   </Box>
@@ -254,7 +255,7 @@ function Login(props) {
                       customButtonStyle
                       fullWidth
                     >
-                      {t('login.signup')}
+                      {i18n.t('login.signup')}
                     </CustomButton>
                   </Link>
                 </Grid>
@@ -264,7 +265,7 @@ function Login(props) {
                       to="/password-reset"
                       className={classes.secondaryLink}
                     >
-                      {t('login.forgotPassword')}
+                      {i18n.t('login.forgotPassword')}
                     </Link>
                   </Box>
                 </Grid>

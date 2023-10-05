@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { withFormik } from 'formik';
 
@@ -41,7 +41,8 @@ const useStyles = makeStyles(styles);
  */
 function PasswordReset(props) {
   const classes = useStyles();
-  const { t } = props;
+
+  const i18n = useSelector(state => state.language.i18n);
 
   return (
     <Box className={classes.root}>
@@ -62,7 +63,7 @@ function PasswordReset(props) {
                   color="textPrimary"
                   className={classes.titleStyle}
                 >
-                  {t('passwordReset.welcomeMsg.primary')}
+                  {i18n.t('passwordReset.welcomeMsg.primary')}
                 </Typography>
                 <Typography
                   className={classes.descStyle}
@@ -70,7 +71,7 @@ function PasswordReset(props) {
                   color="textSecondary"
                   component="p"
                 >
-                  {t('passwordReset.welcomeMsg.secondary')}
+                  {i18n.t('passwordReset.welcomeMsg.secondary')}
                 </Typography>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -105,7 +106,7 @@ function PasswordReset(props) {
                         className={classes.customLabelStyle}
                         htmlFor="email"
                       >
-                        {t('passwordReset.inputs.email.label')}
+                        {i18n.t('passwordReset.inputs.email.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -115,7 +116,7 @@ function PasswordReset(props) {
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
                         labelWidth={calculateLabelWidth(
-                          t('passwordReset.inputs.email.label'),
+                          i18n.t('passwordReset.inputs.email.label'),
                           document,
                         )}
                       />
@@ -126,7 +127,7 @@ function PasswordReset(props) {
                         {(props.status && props.status['email']) ||
                           (props.touched['email'] &&
                             props.errors['email'] &&
-                            t(
+                            i18n.t(
                               `passwordReset.inputs.email.errors.${props.errors['email']}`,
                             ))}
                       </FormHelperText>
@@ -141,7 +142,7 @@ function PasswordReset(props) {
                       type="submit"
                       fullWidth
                     >
-                      {t('passwordReset.inputs.submit')}
+                      {i18n.t('passwordReset.inputs.submit')}
                     </CustomButton>
                   </Grid>
                 </Grid>

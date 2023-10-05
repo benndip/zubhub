@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { FiShare } from 'react-icons/fi';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
@@ -105,6 +105,8 @@ function ProjectDetails(props) {
   const { id } = useParams();
   const [open, setOpen] = useState(false);
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const [state, setState] = React.useState({
     project: {},
     loading: true,
@@ -119,7 +121,7 @@ function ProjectDetails(props) {
       props.getProject({
         id: props.match.params.id,
         token: props.auth.token,
-        t: props.t,
+        t: i18n.t,
       }),
     ).then(async obj => {
       if (obj.project) {
@@ -156,7 +158,7 @@ function ProjectDetails(props) {
       player.source(state.project.video);
       player.videojs.error(null);
       player.videojs.error({
-        message: props.t('project.errors.videoPlayerError'),
+        message: props.i18n.t('project.errors.videoPlayerError'),
       });
     }
   }, [state.project.video]);
@@ -182,7 +184,7 @@ function ProjectDetails(props) {
     open_delete_project_modal,
     delete_project_dialog_error,
   } = state;
-  const { t } = props;
+
   if (loading) {
     return <LoadingPage />;
   } else if (Object.keys(project).length > 0) {
@@ -217,7 +219,7 @@ function ProjectDetails(props) {
                     <Grid container justify="flex-end">
                       <Link className={classes.textDecorationNone} to={`/projects/${project.id}/edit?mode=personal`}>
                         <CustomButton className={common_classes.marginLeft1em} variant="contained" primaryButtonStyle>
-                          {t('projectDetails.project.edit')}
+                          {i18n.t('projectDetails.project.edit')}
                         </CustomButton>
                       </Link>
                       <CustomButton
@@ -226,7 +228,7 @@ function ProjectDetails(props) {
                         dangerButtonStyle
                         onClick={() => handleSetState(handleToggleDeleteProjectModal(state))}
                       >
-                        {t('projectDetails.project.delete.label')}
+                        {i18n.t('projectDetails.project.delete.label')}
                       </CustomButton>
                     </Grid>
                   ) : (
@@ -237,8 +239,8 @@ function ProjectDetails(props) {
                       primaryButtonStyle
                     >
                       {project.creator.followers.includes(props.auth.id)
-                        ? t('projectDetails.project.creator.unfollow')
-                        : t('projectDetails.project.creator.follow')}
+                        ? i18n.t('projectDetails.project.creator.unfollow')
+                        : i18n.t('projectDetails.project.creator.follow')}
                     </CustomButton>
                   )}
                 </Grid>
@@ -266,7 +268,7 @@ function ProjectDetails(props) {
                           <iframe title={project.title} className={classes.iframeStyle} src={project.video}></iframe>
                         ) : (
                           <video src={project.video} className={classes.iframeStyle} controls>
-                            {t('projectDetails.errors.noBrowserSupport')}
+                            {i18n.t('projectDetails.errors.noBrowserSupport')}
                           </video>
                         )}
                       </>
@@ -288,28 +290,28 @@ function ProjectDetails(props) {
                 >
                   <IconButton
                     className={classes.actionBoxButtonStyle}
-                    aria-label={t('projectDetails.ariaLabels.likeButton.label')}
+                    aria-label={i18n.t('projectDetails.ariaLabels.likeButton.label')}
                     onClick={e => handleSetState(toggleLike(e, props, project.id))}
                   >
                     {project.likes.includes(props.auth.id) ? (
-                      <ClapIcon color={colors.white} arial-label={t('projectDetails.ariaLabels.likeButton.unlilke')} />
+                      <ClapIcon color={colors.white} arial-label={i18n.t('projectDetails.ariaLabels.likeButton.unlilke')} />
                     ) : (
                       <ClapBorderIcon
                         color={colors.white}
-                        arial-label={t('projectDetails.ariaLabels.likeButton.like')}
+                        arial-label={i18n.t('projectDetails.ariaLabels.likeButton.like')}
                       />
                     )}
                     <Typography>{nFormatter(project.likes.length)}</Typography>
                   </IconButton>
                   <IconButton
                     className={classes.actionBoxButtonStyle}
-                    aria-label={t('projectDetails.ariaLabels.saveButton.label')}
+                    aria-label={i18n.t('projectDetails.ariaLabels.saveButton.label')}
                     onClick={e => handleSetState(toggleSave(e, props, project.id))}
                   >
                     {project.saved_by.includes(props.auth.id) ? (
-                      <BookmarkIcon aria-label={t('projectDetails.ariaLabels.saveButton.unsave')} />
+                      <BookmarkIcon aria-label={i18n.t('projectDetails.ariaLabels.saveButton.unsave')} />
                     ) : (
-                      <BookmarkBorderIcon aria-label={t('projectDetails.ariaLabels.saveButton.save')} />
+                      <BookmarkBorderIcon aria-label={i18n.t('projectDetails.ariaLabels.saveButton.save')} />
                     )}
                   </IconButton>
 
@@ -342,7 +344,7 @@ function ProjectDetails(props) {
 
                 <Grid item xs={12} sm={12} md={12}>
                   <Typography variant="h5" className={common_classes.title1}>
-                    {t('projectDetails.project.description')}
+                    {i18n.t('projectDetails.project.description')}
                   </Typography>
                   <ReactQuill
                     className={classes.descriptionBodyStyle}
@@ -354,7 +356,7 @@ function ProjectDetails(props) {
 
                 <Grid item xs={12} sm={12} md={12}>
                   <Typography variant="h5" className={common_classes.title1}>
-                    {t('projectDetails.project.materials')}
+                    {i18n.t('projectDetails.project.materials')}
                   </Typography>
                   <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
                     {buildMaterialsUsedComponent(classes, state)}
@@ -362,7 +364,7 @@ function ProjectDetails(props) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
                   <Typography variant="h5" className={common_classes.title1}>
-                    {t('projectDetails.project.category')}
+                    {i18n.t('projectDetails.project.category')}
                   </Typography>
                   <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
                     {project.category ? (
@@ -378,7 +380,7 @@ function ProjectDetails(props) {
                         // </CustomButton>
                       ))
                     ) : (
-                      <Typography className={classes.categoryStyle}>{t('projectDetails.project.none')}</Typography>
+                      <Typography className={classes.categoryStyle}>{i18n.t('projectDetails.project.none')}</Typography>
                     )}
                   </div>
                 </Grid>
@@ -386,7 +388,7 @@ function ProjectDetails(props) {
                 {project.tags.length > 0 ? (
                   <Grid item xs={12} sm={12} md={12}>
                     <Typography variant="h5" className={common_classes.title1}>
-                      {t('projectDetails.project.hashtags')}
+                      {i18n.t('projectDetails.project.hashtags')}
                     </Typography>
 
                     <div className={classes.tagsBoxStyle}>
@@ -402,7 +404,7 @@ function ProjectDetails(props) {
             </div>
             <Box style={{ marginBottom: 100 }} className={classes.box}>
               <Typography align="center" style={{ marginBottom: 50 }} className={common_classes.title1}>
-                More Projects
+              {i18n.t('projectDetails.project.moreProjects')}
               </Typography>
 
               <Grid container spacing={4} justifyContent="center">
@@ -441,7 +443,7 @@ function ProjectDetails(props) {
               open_enlarged_image_dialog: !open_enlarged_image_dialog,
             })
           }
-          aria-labelledby={t('projectDetails.ariaLabels.imageDialog')}
+          aria-labelledby={i18n.t('projectDetails.ariaLabels.imageDialog')}
         >
           <img className={classes.enlargedImageStyle} src={enlarged_image_url} alt={`${project.title}`} />
         </Dialog>
@@ -471,10 +473,10 @@ function ProjectDetails(props) {
         <Dialog
           open={open_delete_project_modal}
           onClose={() => handleSetState(handleToggleDeleteProjectModal(state))}
-          aria-labelledby={t('projectDetails.ariaLabels.deleteProject')}
+          aria-labelledby={i18n.t('projectDetails.ariaLabels.deleteProject')}
         >
           <DialogTitle id="delete-project">
-            <Typography variant="h4">{t('projectDetails.project.delete.dialog.primary')}</Typography>
+            <Typography variant="h4">{i18n.t('projectDetails.project.delete.dialog.primary')}</Typography>
           </DialogTitle>
           {delete_project_dialog_error !== null && (
             <Box component="p" className={classes.errorBox}>
@@ -484,7 +486,7 @@ function ProjectDetails(props) {
             </Box>
           )}
           <DialogContent>
-            <Typography>{t('projectDetails.project.delete.dialog.secondary')}</Typography>
+            <Typography>{i18n.t('projectDetails.project.delete.dialog.secondary')}</Typography>
           </DialogContent>
           <DialogActions className={classes.dialogButtonContainer}>
             <CustomButton
@@ -493,14 +495,14 @@ function ProjectDetails(props) {
               color="primary"
               secondaryButtonStyle
             >
-              {t('projectDetails.project.delete.dialog.cancel')}
+              {i18n.t('projectDetails.project.delete.dialog.cancel')}
             </CustomButton>
             <CustomButton
               variant="contained"
               onClick={e => handleSetState(deleteProject(props, state))}
               dangerButtonStyle
             >
-              {t('projectDetails.project.delete.dialog.proceed')}
+              {i18n.t('projectDetails.project.delete.dialog.proceed')}
             </CustomButton>
           </DialogActions>
         </Dialog>
@@ -509,7 +511,7 @@ function ProjectDetails(props) {
       </>
     );
   } else {
-    return <ErrorPage error={t('projectDetails.errors.unexpected')} />;
+    return <ErrorPage error={i18n.t('projectDetails.errors.unexpected')} />;
   }
 }
 

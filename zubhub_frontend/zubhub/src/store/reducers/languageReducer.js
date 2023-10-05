@@ -17,7 +17,7 @@ const LanguageReducer = (state = default_state, action) => {
             newI18n.locale = action.payload.locale
             newI18n.enableFallback = true
             newI18n.translations = { en, hi }
-            localStorage.setItem('locale', action.payload)
+            localStorage.setItem('locale', action.payload.locale)
             return {
                 ...state,
                 i18n: newI18n

@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { withFormik } from 'formik';
 
@@ -48,6 +48,8 @@ const useStyles = makeStyles(styles);
 function PasswordResetConfirm(props) {
   const classes = useStyles();
 
+  const i18n = useSelector(state => state.language.i18n);
+
   const [state, setState] = React.useState({
     show_password1: false,
     show_password2: false,
@@ -62,7 +64,6 @@ function PasswordResetConfirm(props) {
   };
 
   const { show_password1, show_password2 } = state;
-  const { t } = props;
 
   return (
     <Box className={classes.root}>
@@ -83,7 +84,7 @@ function PasswordResetConfirm(props) {
                   color="textPrimary"
                   className={classes.titleStyle}
                 >
-                  {t('passwordResetConfirm.welcomeMsg.primary')}
+                  {i18n.t('passwordResetConfirm.welcomeMsg.primary')}
                 </Typography>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -120,7 +121,7 @@ function PasswordResetConfirm(props) {
                         className={classes.customLabelStyle}
                         htmlFor="new_password1"
                       >
-                        {t('passwordResetConfirm.inputs.newPassword1.label')}
+                        {i18n.t('passwordResetConfirm.inputs.newPassword1.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -150,7 +151,7 @@ function PasswordResetConfirm(props) {
                           </InputAdornment>
                         }
                         labelWidth={calculateLabelWidth(
-                          t('passwordResetConfirm.inputs.newPassword1.label'),
+                          i18n.t('passwordResetConfirm.inputs.newPassword1.label'),
                           document,
                         )}
                       />
@@ -161,7 +162,7 @@ function PasswordResetConfirm(props) {
                         {(props.status && props.status['new_password1']) ||
                           (props.touched['new_password1'] &&
                             props.errors['new_password1'] &&
-                            t(
+                            i18n.t(
                               `passwordResetConfirm.inputs.newPassword1.errors.${props.errors['new_password1']}`,
                             ))}
                       </FormHelperText>
@@ -185,7 +186,7 @@ function PasswordResetConfirm(props) {
                         className={classes.customLabelStyle}
                         htmlFor="new_password2"
                       >
-                        {t('passwordResetConfirm.inputs.newPassword2.label')}
+                        {i18n.t('passwordResetConfirm.inputs.newPassword2.label')}
                       </InputLabel>
                       <OutlinedInput
                         className={classes.customInputStyle}
@@ -215,7 +216,7 @@ function PasswordResetConfirm(props) {
                           </InputAdornment>
                         }
                         labelWidth={calculateLabelWidth(
-                          t('passwordResetConfirm.inputs.newPassword2.label'),
+                          i18n.t('passwordResetConfirm.inputs.newPassword2.label'),
                           document,
                         )}
                       />
@@ -226,7 +227,7 @@ function PasswordResetConfirm(props) {
                         {(props.status && props.status['new_password2']) ||
                           (props.touched['new_password2'] &&
                             props.errors['new_password2'] &&
-                            t(
+                            i18n.t(
                               `passwordResetConfirm.inputs.newPassword2.errors.${props.errors['new_password2']}`,
                             ))}
                       </FormHelperText>
@@ -241,7 +242,7 @@ function PasswordResetConfirm(props) {
                       customButtonStyle
                       fullWidth
                     >
-                      {t('passwordResetConfirm.inputs.submit')}
+                      {i18n.t('passwordResetConfirm.inputs.submit')}
                     </CustomButton>
                   </Grid>
                 </Grid>
